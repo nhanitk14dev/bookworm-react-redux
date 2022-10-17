@@ -90,6 +90,7 @@ https://harveynashvn-my.sharepoint.com/:x:/r/personal/nhanphamv_nashtechglobal_c
 # Tool in IDE
 1. Syntax highlighting [https://babeljs.io/docs/en/editors/]
 2. Code Debug[https://code.visualstudio.com/docs/editor/debugging]
+3. Develop Tool: [https://reactjs.org/blog/2015/09/02/new-react-developer-tools.html#installation]
 
 
 
