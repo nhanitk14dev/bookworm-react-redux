@@ -19,6 +19,7 @@ We use "npx create-react-app my-app --template typescript" to create with TypeSc
 ----utils
 ```
 - Download this provided template to create pages:[https://bootstrapmade.com/sailor-free-bootstrap-theme]
+- [`Rule define Jsx`](https://github.com/jsx-eslint/eslint-plugin-react/blob/master/docs/rules/jsx-filename-extension.md)
 
 In the project directory, you can run available Scripts:
 
@@ -42,12 +43,14 @@ To learn React, check out the [React documentation](https://reactjs.org/).
     + Lodash: [`npm i --save lodash`](https://lodash.com)
     A modern JavaScript utility library delivering modularity, performance & extras.
     Lodash makes JavaScript easier by taking the hassle out of working with arrays, numbers, objects, strings, etc.
+    + Bootstrap: [`npm install bootstrap`](https://create-react-app.dev/docs/adding-bootstrap/)
 
-
+- Note:
+  + Should use end slash with single tag such as: [`<br/>, <input />, ...`] in React.
 ***
 
 # II. React - Redux
-## 1. Check List
+## 1. Learning Skills
 - Components and Lifecycle [https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/]
 - State and Props 
 - State Management: Context, Redux thunk/toolkit & Saga.
@@ -55,14 +58,14 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 - Forms: React hook Form, Formik.
 - React Portals
 - Modern CSS (Styled Components)
-- React Router
+- [`React Router`](https://github.com/remix-run/react-router)
 - Custom Hook
 - Error Boundaries
 - Higher-Order Components
 - Profiler
 - React-Query
 
-## 2.  Features
+## 2.  Features In This Demo
 - Views
     - Login page
     - List paging
@@ -72,25 +75,24 @@ To learn React, check out the [React documentation](https://reactjs.org/).
     - Typescript
     - React hook form
     - Using React functional component, hooks (custom hook)
-    - Lazy loading route
-    - CSS framework (Styled component)
+    - [`Lazy loading route`](https://github.com/remix-run/react-router/tree/main/examples/lazy-loading): Using React.lazy() and dynamic import
+    - [CSS framework - Styled component](https://styled-components.com). [Follow](https://github.com/styled-components/styled-components-website)
     - Use redux to manage state
-    - React router
+    - [React router](https://reactrouter.com/en/main) [https://reactjs.org/docs/code-splitting.html#route-based-code-splitting]
+      Example here: [https://github.com/remix-run/react-router/tree/dev/examples]
     - Error boundary
     - React query
     - Higher-Order Components
     - Profiler
     - React Portals
+    - Use ['React-bootstrap bootstrap@4.6.0'](https://react-bootstrap.github.io/)
+    - Use ['styled-icons'](https://github.com/styled-icons/styled-icons)(https://styled-icons.dev)
 
-# Link Carreer Frontend Path
-
-https://harveynashvn-my.sharepoint.com/:x:/r/personal/nhanphamv_nashtechglobal_com/Documents/Frontend%20Career%20Path.xlsx?d=w34626ddb529a41c994e9837c1b80efc7&csf=1&web=1&e=3Y1y3L
-
-
-# Tool in IDE
+# Tool & Extendstions in IDE Visual Studio Code
 1. Syntax highlighting [https://babeljs.io/docs/en/editors/]
-2. Code Debug[https://code.visualstudio.com/docs/editor/debugging]
+2. Code Debug [https://code.visualstudio.com/docs/editor/debugging]
 3. Develop Tool: [https://reactjs.org/blog/2015/09/02/new-react-developer-tools.html#installation]
+4. Vscode-styled-components
 
 
 
