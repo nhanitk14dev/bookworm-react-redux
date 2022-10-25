@@ -12,7 +12,8 @@ export const HeaderSection = styled.header`
         padding: 12px 0;
     }
 
-    a {
+    a,
+    .active {
         text-decoration: none;
         color: #d9232d;
     }
