@@ -27,7 +27,6 @@ export const SocialLinkContainer = styled.div`
     }
 `;
 
-
 export const FooterSection = styled.footer`
   background: #4a5562;
   padding: 0 0 30px 0;
@@ -37,7 +36,6 @@ export const FooterSection = styled.footer`
   margin: auto;
   width: 100%;
 `;
-
 
 export const FooterTop = styled.div`
   background: #515d6a;
@@ -101,37 +99,6 @@ export const FooterTop = styled.div`
 
 `;
 
-
-export const NewsLetterForm = styled.form`
-  margin-top: 30px;
-  background: #fff;
-  padding: 6px 10px;
-  position: relative;
-  border-radius: 4px;
-
-  input[type=email] {
-    border: 0;
-    padding: 4px;
-    width: calc(100% - 110px);
-  }
-
-  input[type=submit] {
-    position: absolute;
-    top: 0;
-    right: -2px;
-    bottom: 0;
-    border: 0;
-    background: none;
-    font-size: 16px;
-    padding: 0 20px 2px 20px;
-    background: #d9232d;
-    color: #fff;
-    transition: 0.3s;
-    border-radius: 0 4px 4px 0;
-  }
-`;
-
-
 export const FooterBottom = styled.div`
   .copyright {
     text-align: center;
@@ -151,5 +118,4 @@ export const FooterBottom = styled.div`
     transition: 0.3s;
     font-weight: 600;
   }
-
 `;

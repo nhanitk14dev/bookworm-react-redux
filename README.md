@@ -51,13 +51,14 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 # II. React - Redux
 ## 1. Learning Skills
+- [`Typescript`](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html) or [`TypeScript React Starter`](https://github.com/Microsoft/TypeScript-React-Starter#typescript-react-starter)
 - Components and Lifecycle [https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/]
 - State and Props 
 - State Management: Context, Redux thunk/toolkit & Saga.
 - React Hooks
 - Forms: React hook Form, Formik.
 - React Portals
-- Modern CSS (Styled Components)
+- Modern CSS ([`Styled Components Typescript`](https://styled-components.com/docs/api#typescript))
 - [`Learn React Code-spliting`](https://reactjs.org/docs/code-splitting.html)
 - [`React Router`](https://github.com/remix-run/react-router)
 - Custom Hook
@@ -65,7 +66,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 - Higher-Order Components
 - Profiler
 - React-Query
-
 ## 2.  Features In This Demo
 - Views
     - Login page
@@ -113,4 +113,4 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 2. Code Debug [https://code.visualstudio.com/docs/editor/debugging]
 3. Develop Tool: [https://reactjs.org/blog/2015/09/02/new-react-developer-tools.html#installation]
 4. Vscode-styled-components
-
+5. [`Typescript React code snippets`](https://marketplace.visualstudio.com/items?itemName=infeng.vscode-react-typescript)

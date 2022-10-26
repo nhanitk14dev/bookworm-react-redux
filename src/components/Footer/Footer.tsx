@@ -1,7 +1,8 @@
-import { Input, SubmitInput, IconChervonRight, IconArrowUpCircle } from "../../commonStyles";
+import { IconChervonRight, IconArrowUpCircle } from "../../commonStyles";
 import { Container, Row, Col } from 'react-bootstrap';
 import { Twitter, Facebook, Instagram, Google } from '@styled-icons/bootstrap';
-import { FooterSection, FooterTop, FooterBottom, SocialLinkContainer, NewsLetterForm } from "./FooterStyles";
+import { FooterSection, FooterTop, FooterBottom, SocialLinkContainer } from "./FooterStyles";
+import NewLetterForm from "../../components/NewLetterForm";
 
 const Footer = () => {
   return <div>
@@ -49,10 +50,7 @@ const Footer = () => {
             <Col className="footer-newsletter">
               <h4>Our Newsletter</h4>
               <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
-              <NewsLetterForm action="#" method="post">
-                <Input type="email" name="email" />
-                <SubmitInput />
-              </NewsLetterForm>
+              <NewLetterForm />
             </Col>
           </Row>
         </Container>
