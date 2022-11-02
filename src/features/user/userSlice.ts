@@ -1,4 +1,5 @@
-/* 
+/*
+  createSlice: https://redux-toolkit.js.org/api/createSlice
   Redux Toolkit: We use createSlice which handles the action and reducer in a single function.
   Thunk: Promise Lifecycle Actions https://redux-toolkit.js.org/api/createAsyncThunk
   pending: 'users/requestStatus/pending'
@@ -17,7 +18,7 @@ export interface ILoginForm {
   isSuccess?: boolean;
   isError?: boolean;
   errorMessage?: string;
-  user?: Object | null
+  userInfo?: Object | null
 }
 
 // Define initial state using that type
@@ -29,29 +30,32 @@ const initialState: ILoginForm = {
   isSuccess: false,
   isError: false,
   errorMessage: '',
-  user: ''
+  userInfo: ''
 }
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    logout(state) {
+      // Clear local storage & set state
+      localStorage.removeItem('token');
+      state.isLoggged = false;
+    }
     // Reducer comes here
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUserByToken.fulfilled, (state, action) => {
       state.email = action.payload.email;
-      state.user = action.payload;
+      state.userInfo = action.payload;
       state.isLoggged = true;
       state.isFetching = false;
       state.isSuccess = true;
+
       return state;
     })
   },
 });
-
-// Get user State from store
-export const userStateSelector = (state: RootState) => state.user;
 
 // Generate token and set localstorage
 export const loginUser = createAsyncThunk(
@@ -101,6 +105,11 @@ export const fetchUserByToken = createAsyncThunk(
   }
 );
 
+// Export States
+export const userStateSelector = (state: RootState) => state.user;
+
+// Export actions
+export const { logout } = userSlice.actions
 
 // Export userReducer as default
 export default userSlice.reducer;

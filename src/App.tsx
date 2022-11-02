@@ -19,8 +19,6 @@ const Login = lazy(() => import('./pages/auth/Login'));
 
 const App = () => {
 
-  const [redirectIfUser, setRe] = useState(false);
-
   return (
     <Router>
       <Suspense fallback={<Spinner />}>

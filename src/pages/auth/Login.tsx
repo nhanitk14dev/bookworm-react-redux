@@ -7,17 +7,24 @@
   https://codesandbox.io/s/react-hook-form-apply-validation-ts-forked-nmbyh?file=/src/index.tsx
   - React Hook Form with ts: https://react-hook-form.com/ts/
 */
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 import { ErrorLabel } from "../../commonStyles";
-import { useAppDispatch } from '../../app/hook'
-import { loginUser, fetchUserByToken } from "../../features/user/userSlice";
+import { useAppDispatch, useAppSelector } from '../../app/hook'
+import { loginUser, fetchUserByToken, userStateSelector } from "../../features/user/userSlice";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Login = () => {
 
   // Get state from Redux
   const dispatch = useAppDispatch();
+  const { isLoggged } = useAppSelector(userStateSelector);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  let navigate = useNavigate();
+  let location = useLocation();
+  let from = location.state?.from?.pathname || "/";
+
 
   type FormValues = {
     password: string;
@@ -30,6 +37,7 @@ const Login = () => {
   });
 
   const onSubmit: SubmitHandler<FormValues> = (data) => {
+    setIsSubmit(true);
     const hasErrors = Object.keys(errors).length;
     if (!hasErrors) {
       dispatch(loginUser(data));
@@ -37,8 +45,12 @@ const Login = () => {
   };
 
   useEffect(() => {
+    if (isLoggged) {
+      navigate(from, { replace: true });
+    }
+
     let token = localStorage.getItem("token");
-    if (token) {
+    if (isSubmit && token) {
       dispatch(fetchUserByToken(token));
     }
   });
