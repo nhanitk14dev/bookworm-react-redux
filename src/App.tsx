@@ -16,10 +16,6 @@ const SignUp = lazy(() => import('./pages/auth/SignUp'));
 const PageNotFound = lazy(() => import('./pages/PageNotFound'));
 const AuthLayout = lazy(() => import('./pages/auth/AuthLayout'));
 const Login = lazy(() => import('./pages/auth/Login'));
-import { userStateSelector } from "./features/user/userSlice";
-import { useAppSelector } from './app/hook'
-const {isLoggged} = useAppSelector(userStateSelector);
-
 
 const App = () => {
 

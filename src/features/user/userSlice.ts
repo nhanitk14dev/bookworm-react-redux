@@ -10,8 +10,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import type { RootState } from '../../app/store'
 // https://www.typescriptlang.org/docs/handbook/modules.html#exporting-a-declaration
 export interface ILoginForm {
-  email?: string;
-  password?: string;
+  email: string;
+  password: string;
   isLoggged?: boolean;
   isFetching?: boolean;
   isSuccess?: boolean;
@@ -24,12 +24,12 @@ export interface ILoginForm {
 const initialState: ILoginForm = {
   email: '',
   password: '',
-  // isFetching: false,
-  // isLoggged: false,
-  // isSuccess: false,
-  // isError: false,
-  // errorMessage: '',
-  // user: ''
+  isFetching: false,
+  isLoggged: false,
+  isSuccess: false,
+  isError: false,
+  errorMessage: '',
+  user: ''
 }
 
 export const userSlice = createSlice({

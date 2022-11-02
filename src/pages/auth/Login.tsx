@@ -5,30 +5,34 @@
   - Use only error state to show msg the password
   - Use Custom Hook with Resolver "yup"
   https://codesandbox.io/s/react-hook-form-apply-validation-ts-forked-nmbyh?file=/src/index.tsx
+  - React Hook Form with ts: https://react-hook-form.com/ts/
 */
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 import { ErrorLabel } from "../../commonStyles";
-import { useAppSelector, useAppDispatch } from '../../app/hook'
-import { ILoginForm, loginUser, userStateSelector, fetchUserByToken } from "../../features/user/userSlice";
-import { Navigate } from "react-router-dom";
+import { useAppDispatch } from '../../app/hook'
+import { loginUser, fetchUserByToken } from "../../features/user/userSlice";
 
 const Login = () => {
 
   // Get state from Redux
   const dispatch = useAppDispatch();
-  const [isSubmit, setIsSubmit] = useState(false);
 
-  const { register, handleSubmit, formState: { errors } } = useForm<ILoginForm>({
-    criteriaMode: "all"
+  type FormValues = {
+    password: string;
+    email: string;
+  };
+
+  // Multiple Error Messages: https://github.com/react-hook-form/error-message
+  const { register, formState: { errors }, handleSubmit } = useForm<FormValues>({
+    criteriaMode: 'all',
   });
 
-  const onSubmit = (data: ILoginForm) => {
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
     const hasErrors = Object.keys(errors).length;
     if (!hasErrors) {
       dispatch(loginUser(data));
-      console.log('run dispatch')
     }
   };
 
