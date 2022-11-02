@@ -54,13 +54,13 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 - [`Typescript`](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html) or [`TypeScript React Starter`](https://github.com/Microsoft/TypeScript-React-Starter#typescript-react-starter)
 - Components and Lifecycle [https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/]
 - State and Props 
-- State Management: Context, Redux thunk/toolkit & Saga.
-- React Hooks
-- Forms: React hook Form, Formik.
+- State Management: Context, Redux thunk/toolkit & Saga. [`Redux Typescript`](https://redux.js.org/usage/usage-with-typescript)
+- [`React Hooks`](https://reactjs.org/docs/hooks-effect.html)
+- Forms: [`React hook Form`](https://react-hook-form.com/get-started/#TypeScript), Formik.
 - React Portals
 - Modern CSS ([`Styled Components Typescript`](https://styled-components.com/docs/api#typescript))
 - [`Learn React Code-spliting`](https://reactjs.org/docs/code-splitting.html)
-- [`React Router`](https://github.com/remix-run/react-router)
+- [`React Router`]̣(https://v5.reactrouter.com/web/example/basic), (https://github.com/remix-run/react-router)
 - Custom Hook
 - Error Boundaries
 - Higher-Order Components
@@ -108,9 +108,24 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
   `Suspense` component, which allows us to show some fallback content such as a loading indicator) while we’re waiting for the lazy component to load.
 
+
+## 4. Important
+
+  - [`React route v6`](https://github.com/remix-run/react-router/blob/main/docs/upgrading/v5.md#upgrade-to-react-router-v6)
+    + Remove <Redirect>s inside <Switch>
+
+  - [`TS Differences Between Type Aliases and Interfaces`](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#differences-between-type-aliases-and-interfaces)
+
+  - Redux Toolkit: is already written in TypeScript, and its API is designed to provide a good experience for TypeScript usage.
+
 # Tool & Extendstions in IDE Visual Studio Code
 1. Syntax highlighting [https://babeljs.io/docs/en/editors/]
 2. Code Debug [https://code.visualstudio.com/docs/editor/debugging]
 3. Develop Tool: [https://reactjs.org/blog/2015/09/02/new-react-developer-tools.html#installation]
 4. Vscode-styled-components
 5. [`Typescript React code snippets`](https://marketplace.visualstudio.com/items?itemName=infeng.vscode-react-typescript)
+
+
+## Redux Thunk 
+ - https://redux.js.org/usage/writing-logic-thunks: A thunk function accepts 2 arguments: store dispatch + store getState method
+  ( "a piece of code that does some delayed work", redux-thunk middleware to be added to the Redux store as part of its configuration)
