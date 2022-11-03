@@ -5,7 +5,7 @@ import {
   Dropdown,
   IconList,
   Logo
-} from "./HeaderStyles";
+} from "./Header.style";
 
 
 const Navbar = () => {

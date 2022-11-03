@@ -1,7 +1,7 @@
 import { IconChervonRight, IconArrowUpCircle } from "../../commonStyles";
 import { Container, Row, Col } from 'react-bootstrap';
 import { Twitter, Facebook, Instagram, Google } from '@styled-icons/bootstrap';
-import { FooterSection, FooterTop, FooterBottom, SocialLinkContainer } from "./FooterStyles";
+import { FooterSection, FooterTop, FooterBottom, SocialLinkContainer } from "./Footer.style";
 import NewLetterForm from "../../components/NewLetterForm";
 
 const Footer = () => {
