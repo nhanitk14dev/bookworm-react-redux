@@ -20,7 +20,6 @@ export const HeaderSection = styled.header`
 
 `;
 
-
 export const HeaderContainer = styled.div`
     display: flex;
     justify-content: space-between;
@@ -118,8 +117,6 @@ export const Dropdown = styled.li`
     }
 `;
 
-
-
 export const IconList = styled(List)`
     width: 40px;
     color: #556270;
@@ -132,5 +129,4 @@ export const IconList = styled(List)`
     @media (max-width: 991px) {
         display: block;
     }
-
 `;
