@@ -1,4 +1,4 @@
-import { Main } from './HomeStyles'
+import { Main } from './Home.style'
 import CarouselTop from '../../components/CarouselTop';
 
 const Home = () => {

@@ -2,6 +2,7 @@
 import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Layout from './components/Layout';
+import Spinner from "./components/Spinner";
 const Home = lazy(() => import('./pages/home/Home'));
 const About = lazy(() => import('./pages/About'));
 const Contact = lazy(() => import('./pages/Contact'));
@@ -12,7 +13,7 @@ const PageNotFound = lazy(() => import('./pages/PageNotFound'));
 const App = () => {
   return (
     <Router>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Spinner />}>
         <Routes>
           <Route path='/' element={<Layout />}>
             <Route index element={<Home />}></Route>

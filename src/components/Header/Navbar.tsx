@@ -1,11 +1,12 @@
-import { Button, IconChervonDown } from "../../commonStyles";
+import { IconChervonDown } from "../../commonStyles";
 import { Link } from "react-router-dom";
 import {
   Nav,
   Dropdown,
   IconList,
   Logo
-} from "./HeaderStyles";
+} from "./Header.style";
+
 
 const Navbar = () => {
   return (
@@ -35,7 +36,7 @@ const Navbar = () => {
           <li><Link to="/card">Card</Link></li>
           <li><Link to="/blogs">Blog</Link></li>
           <li><Link to="/contact">contact</Link></li>
-          <li><Link to="/signup"><Button>Sign Up</Button></Link></li>
+          <li><Link to="/signup"><button className="btn btn-danger">Sign Up</button></Link></li>
         </ul>
         <IconList />
       </Nav>
