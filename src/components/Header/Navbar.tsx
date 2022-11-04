@@ -5,7 +5,7 @@ import {
   Dropdown,
   IconList,
   Logo
-} from "./HeaderStyles";
+} from "./Header.style";
 
 import { useAppDispatch, useAppSelector } from '../../app/hook'
 import  {logout, userStateSelector} from "../../features/user/userSlice";
