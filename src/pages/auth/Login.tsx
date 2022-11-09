@@ -12,31 +12,23 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 import { ErrorLabel } from "../../commonStyles";
 import { useAppDispatch, useAppSelector } from '../../app/hook'
-import { loginUser, fetchUserByToken, userStateSelector } from "../../features/user/userSlice";
-import { useNavigate, useLocation } from "react-router-dom";
+import { loginUser, userStateSelector, ILoginForm } from "../../features/user/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
 
   // Get state from Redux
   const dispatch = useAppDispatch();
-  const { isLoggged } = useAppSelector(userStateSelector);
+  const { isLoggedIn } = useAppSelector(userStateSelector);
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
-  let navigate = useNavigate();
-  let location = useLocation();
-  let from = location.state?.from?.pathname || "/";
-
-
-  type FormValues = {
-    password: string;
-    email: string;
-  };
+  const navigate = useNavigate(); //https://reactrouter.com/en/main/hooks/use-navigate
 
   // Multiple Error Messages: https://github.com/react-hook-form/error-message
-  const { register, formState: { errors }, handleSubmit } = useForm<FormValues>({
+  const { register, formState: { errors }, handleSubmit } = useForm<ILoginForm>({
     criteriaMode: 'all',
   });
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const onSubmit: SubmitHandler<ILoginForm> = (data) => {
     setIsSubmit(true);
     const hasErrors = Object.keys(errors).length;
     if (!hasErrors) {
@@ -45,15 +37,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (isLoggged) {
-      navigate(from, { replace: true });
+    if (isLoggedIn) {
+      navigate("/users"); // redirect to users page
     }
-
-    let token = localStorage.getItem("token");
-    if (isSubmit && token) {
-      dispatch(fetchUserByToken(token));
-    }
-  });
+  }, [isLoggedIn]);
 
   return (
     <>

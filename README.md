@@ -34,6 +34,10 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ### `npm run eject`
 
+
+Run server backend to access database json:
+### `cd \nodejs-backend> json-server --port 8080 --routes routes.json --watch db.json`
+
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).

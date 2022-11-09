@@ -4,30 +4,23 @@ import {
   Nav,
   Dropdown,
   IconList,
-  Logo
+  Logo,
+  InfoContainer
 } from "./Header.style";
 
 import { useAppDispatch, useAppSelector } from '../../app/hook'
 import  {logout, userStateSelector} from "../../features/user/userSlice";
-import React from "react";
-
 
 const Navbar = () => {
 
   const dispatch = useAppDispatch();
-  const {isLoggged, userInfo} = useAppSelector(userStateSelector);
-  console.log(userInfo)
-
+  const {auth } = useAppSelector(userStateSelector);
   /*
     To type the onClick event of an element in React, 
     set its type to React.MouseEvent<HTMLElement>. 
     The MouseEvent interface is used to type onClick events in React.
     The easiest way is write the event handler inline in the funtion
   */
-  // const handleLogout = (event: React.MouseEvent<HTMLElement>) => {
-  //   dispatch(logout());
-  //   console.log(event.target)
-  // }
 
   return (
     <>
@@ -35,6 +28,7 @@ const Navbar = () => {
       <Nav className="navbar">
         <ul>
           <li><Link to="/" className="active">Home</Link></li>
+          <li><Link to="/users">List Users</Link></li>
           <Dropdown className="dropdown">
             <Link to="/products">Products<IconChervonDown /></Link>
             <ul>
@@ -58,7 +52,12 @@ const Navbar = () => {
           <li><Link to="/contact">contact</Link></li>
           <li>
           {
-            isLoggged ? <button className="btn btn-warning" onClick={evt => (dispatch(logout()))}>Logout</button>
+            auth ? (<>
+              <InfoContainer>
+                <span className="info">Hi, {auth.name}</span>
+                <span><button className="btn btn-warning" onClick={evt => (dispatch(logout()))}>Logout</button></span>
+              </InfoContainer>
+            </>)
             : <Link to="/login"><button className="btn btn-danger">Login</button></Link>
           }
           </li>

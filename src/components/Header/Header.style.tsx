@@ -17,7 +17,18 @@ export const HeaderSection = styled.header`
         text-decoration: none;
         color: #d9232d;
     }
+`;
 
+export const InfoContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 20px;
+
+    .info {
+        font-weight: 700;
+        margin-right: 5px;
+    }
 `;
 
 export const HeaderContainer = styled.div`

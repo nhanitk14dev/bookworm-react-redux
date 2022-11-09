@@ -5,78 +5,72 @@
   pending: 'users/requestStatus/pending'
   fulfilled: 'users/requestStatus/fulfilled'
   rejected: 'users/requestStatus/rejected'
+// https://www.typescriptlang.org/docs/handbook/modules.html#exporting-a-declaration
 */
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import type { RootState } from '../../app/store'
-// https://www.typescriptlang.org/docs/handbook/modules.html#exporting-a-declaration
-export interface ILoginForm {
-  email: string;
-  password: string;
-  isLoggged?: boolean;
+import { IUser } from '../../models/user.model';
+import axios from 'axios';
+export interface ILoginForm extends IUser {
   isFetching?: boolean;
   isSuccess?: boolean;
   isError?: boolean;
   errorMessage?: string;
-  userInfo?: Object | null
 }
 
-// Define initial state using that type
-const initialState: ILoginForm = {
-  email: '',
-  password: '',
-  isFetching: false,
-  isLoggged: false,
-  isSuccess: false,
-  isError: false,
-  errorMessage: '',
-  userInfo: ''
+//https://www.typescripttutorial.net/typescript-tutorial/typescript-array-type/
+type UserState = {
+  users: IUser[],
+  auth: any,
+  isLoggedIn: boolean
+}
+
+const initialState: UserState = {
+  users: [],
+  auth: null,
+  isLoggedIn: false
 }
 
 export const userSlice = createSlice({
-  name: 'user',
+  name: 'users',
   initialState,
   reducers: {
     logout(state) {
-      // Clear local storage & set state
-      localStorage.removeItem('token');
-      state.isLoggged = false;
+      state.auth = null;
+      localStorage.removeItem('userLoggedIn');
     }
     // Reducer comes here
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchUserByToken.fulfilled, (state, action) => {
-      state.email = action.payload.email;
-      state.userInfo = action.payload;
-      state.isLoggged = true;
-      state.isFetching = false;
-      state.isSuccess = true;
-
-      return state;
-    })
+    builder
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.auth = action.payload;
+        state.isLoggedIn = true;
+        // set local storage
+        localStorage.setItem('userLoggedIn', JSON.stringify(action.payload));
+      })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.users = action.payload || [];
+      })
   },
 });
 
 // Generate token and set localstorage
+/* fetch can't use GET method with body.
+   Need to use axios https://www.npmjs.com/package/axios#features
+*/
 export const loginUser = createAsyncThunk(
-  'user/loginUser',
+  'users/loginUser',
   async ({ email, password }: ILoginForm, thunkAPI) => {
     try {
-      const response = await fetch(`http://localhost:8080/token`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+      const response = await axios.get(`http://localhost:8080/users/1`, {
+        params: {
+          email: email,
+          password: password
+        }
       });
-
-      let data = await response.json();
-
-      if (data.status === 200) {
-        localStorage.setItem("token", data.token);
-        return { ...data, email: email }
-      } else {
-        thunkAPI.rejectWithValue(data);
-      }
-
+      return response.data;
     } catch (e) {
       console.log("Error", e);
       thunkAPI.rejectWithValue(e);
@@ -87,7 +81,7 @@ export const loginUser = createAsyncThunk(
 
 // Fetch User by token
 export const fetchUserByToken = createAsyncThunk(
-  'user/fetchUserByToken',
+  'users/fetchUserByToken',
   async (token: string, thunkAPI) => {
     try {
       const response = await fetch(`http://localhost:8080/auth`, {
@@ -97,6 +91,28 @@ export const fetchUserByToken = createAsyncThunk(
       });
       let data = await response.json();
       return data;
+    } catch (e) {
+      console.log("Error", e);
+      thunkAPI.rejectWithValue(e);
+    }
+
+  }
+);
+
+// Fetch list Users
+export const fetchUsers = createAsyncThunk(
+  'users/fetchUsers',
+  async (params: any, thunkAPI) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/users`, {
+        params: params,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      return await response.data;
+
     } catch (e) {
       console.log("Error", e);
       thunkAPI.rejectWithValue(e);
