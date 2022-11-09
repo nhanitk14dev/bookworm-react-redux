@@ -24,6 +24,10 @@ export const UserContainer = styled.div`
         border-radius: 4px;
         line-height: 130%;
     }
+
+    a {
+        color: var(--bs-link-color);
+    }
 `;
 
 export const UserInfoStyles = styled.div`

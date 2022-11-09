@@ -18,7 +18,7 @@ export default {
     component: AddUser,
   },
   EditUser: {
-    path: "/users/:userId",
+    path: "/users/:userId/edit",
     component: EditUser,
   }
 };

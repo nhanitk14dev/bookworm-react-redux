@@ -60,7 +60,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 - State and Props 
 - State Management: Context, Redux thunk/toolkit & Saga. [`Redux Typescript`](https://redux.js.org/usage/usage-with-typescript)
 - [`React Hooks`](https://reactjs.org/docs/hooks-effect.html)
-- Forms: [`React hook Form`](https://react-hook-form.com/get-started/#TypeScript), Formik.
+- Forms: [`React hook Form`](https://react-hook-form.com/get-started/#TypeScript), [`Formik`](https://formik.org).
 - React Portals
 - Modern CSS ([`Styled Components Typescript`](https://styled-components.com/docs/api#typescript))
 - [`Learn React Code-spliting`](https://reactjs.org/docs/code-splitting.html)

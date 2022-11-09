@@ -57,8 +57,8 @@ const ListUser = () => {
             <tbody>
               {users.length ? users.map(user =>
                 <tr key={user.id}>
-                  <td>{user.id}</td>
-                  <td>{user.name}</td>
+                  <td><Link target="_blank" to={`${user.id}/edit`}>{user.id}</Link></td>
+                  <td><Link target="_blank" to={`${user.id}/edit`}>{user.name}</Link></td>
                   <td>{user.email}</td>
                   <td>{user.address}</td>
                 </tr>
