@@ -128,6 +128,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 3. Develop Tool: [https://reactjs.org/blog/2015/09/02/new-react-developer-tools.html#installation]
 4. Vscode-styled-components
 5. [`Typescript React code snippets`](https://marketplace.visualstudio.com/items?itemName=infeng.vscode-react-typescript)
+6. Redux DevTools extendstion
 
 
 ## Redux Thunk 

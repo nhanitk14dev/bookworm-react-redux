@@ -5,7 +5,8 @@
   pending: 'users/requestStatus/pending'
   fulfilled: 'users/requestStatus/fulfilled'
   rejected: 'users/requestStatus/rejected'
-// https://www.typescriptlang.org/docs/handbook/modules.html#exporting-a-declaration
+  https://www.typescriptlang.org/docs/handbook/modules.html#exporting-a-declaration
+  Writing Logic with Thunks: https://redux.js.org/usage/writing-logic-thunks
 */
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
@@ -111,7 +112,12 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-// Fetch User by Id as a service, not create
+/*
+  createAsyncThunk: return 3 actions;
+  users/fetchUser/pending
+  users/fetchUser/fulfilled
+  users/fetchUser/rejected
+*/
 export const fetchUser = createAsyncThunk(
   'users/fetchUser',
   async (id: string, thunkAPI) => {

@@ -23,7 +23,7 @@ const EditUserPage = (props: string) => {
   const dispatch = useAppDispatch();
   const { status, editingUser} = useAppSelector(userStateSelector);
   const [formValues, setFormValues] = useState<IUser>();
-  const [isSubmitting, setIsSubmiting] = useState<boolean>(false);
+  //const [isSubmitting, setIsSubmiting] = useState<boolean>(false);
   const [flashMsg, setFlashMsg] = useState<string>('');
   const { userId } = useParams();
   const navigate = useNavigate();
@@ -34,13 +34,13 @@ const EditUserPage = (props: string) => {
     } else {
       navigate('/404')
     }
-  }, [userId]);
+  }, [userId, dispatch, navigate]);
 
   useEffect(() => {
     if (formValues) {
       dispatch(updateUser(formValues));
     } 
-  }, [formValues]);
+  }, [formValues, dispatch]);
 
   useEffect(() => {
     if (editingUser) {
