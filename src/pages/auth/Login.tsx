@@ -12,28 +12,26 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 import { ErrorLabel } from "../../commonStyles";
 import { useAppDispatch, useAppSelector } from '../../app/hook'
-import { loginUser, userStateSelector, ILoginForm } from "../../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
+import { IUser } from "../../models/user.model";
 
 const Login = () => {
 
   // Get state from Redux
   const dispatch = useAppDispatch();
-  const { isLoggedIn } = useAppSelector(userStateSelector);
+  const isLoggedIn  = false;
   const [isSubmit, setIsSubmit] = useState<boolean>(false);
   const navigate = useNavigate(); //https://reactrouter.com/en/main/hooks/use-navigate
 
   // Multiple Error Messages: https://github.com/react-hook-form/error-message
-  const { register, formState: { errors }, handleSubmit } = useForm<ILoginForm>({
+  const { register, formState: { errors }, handleSubmit } = useForm<IUser>({
     criteriaMode: 'all',
   });
 
-  const onSubmit: SubmitHandler<ILoginForm> = (data) => {
+  const onSubmit = (data: IUser) => {
     setIsSubmit(true);
     const hasErrors = Object.keys(errors).length;
-    if (!hasErrors) {
-      dispatch(loginUser(data));
-    }
+    // todo: handle with redux saga
   };
 
   useEffect(() => {

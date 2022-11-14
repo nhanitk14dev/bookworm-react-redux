@@ -14,54 +14,17 @@ import { UserContainer, UserInfoStyles } from './User.style';
 import { ErrorLabel } from "../../commonStyles";
 import { useAppDispatch, useAppSelector } from '../../app/hook';
 import { useEffect, useState } from 'react';
-import { updateUser, userStateSelector, fetchUser } from "../../features/user/userSlice"
 import { IUser } from '../../models/user.model';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const EditUserPage = (props: string) => {
 
   const dispatch = useAppDispatch();
-  const { status, editingUser} = useAppSelector(userStateSelector);
   const [formValues, setFormValues] = useState<IUser>();
   //const [isSubmitting, setIsSubmiting] = useState<boolean>(false);
   const [flashMsg, setFlashMsg] = useState<string>('');
   const { userId } = useParams();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (userId) {
-      dispatch(fetchUser(userId));
-    } else {
-      navigate('/404')
-    }
-  }, [userId, dispatch, navigate]);
-
-  useEffect(() => {
-    if (formValues) {
-      dispatch(updateUser(formValues));
-    } 
-  }, [formValues, dispatch]);
-
-  useEffect(() => {
-    if (editingUser) {
-      formik.setValues(editingUser);
-    } 
-  }, [editingUser]);
-
-  useEffect(() => {
-    console.log(status)
-    // todo: should move to common service
-    if (status === 'succeeded') {
-      setFlashMsg('Update user successfully!')
-      const time = setTimeout(() => {
-        setFlashMsg('');
-      }, 3000);
-      return () => {
-        clearTimeout(time);
-      }
-    }
-
-  }, [status]);
 
   const formik = useFormik({
     initialValues: {

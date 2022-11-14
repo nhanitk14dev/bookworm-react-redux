@@ -134,3 +134,11 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 ## Redux Thunk 
  - https://redux.js.org/usage/writing-logic-thunks: A thunk function accepts 2 arguments: store dispatch + store getState method
   ( "a piece of code that does some delayed work", redux-thunk middleware to be added to the Redux store as part of its configuration)
+
+
+## Typesafe API calls from a Redux Saga generator function
+
+- We use `Contact` pages to demo Redux Saga
+- Remove un-use code and folder with Redux saga
+
+

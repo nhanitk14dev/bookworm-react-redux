@@ -9,12 +9,11 @@ import {
 } from "./Header.style";
 
 import { useAppDispatch, useAppSelector } from '../../app/hook'
-import  {logout, userStateSelector} from "../../features/user/userSlice";
 
 const Navbar = () => {
 
   const dispatch = useAppDispatch();
-  const {auth } = useAppSelector(userStateSelector);
+  const auth = false;
   /*
     To type the onClick event of an element in React, 
     set its type to React.MouseEvent<HTMLElement>. 
@@ -54,8 +53,8 @@ const Navbar = () => {
           {
             auth ? (<>
               <InfoContainer>
-                <span className="info">Hi, {auth.name}</span>
-                <span><button className="btn btn-warning" onClick={evt => (dispatch(logout()))}>Logout</button></span>
+                <span className="info">Hi</span>
+                <span><button className="btn btn-warning">Logout</button></span>
               </InfoContainer>
             </>)
             : <Link to="/login"><button className="btn btn-danger">Login</button></Link>

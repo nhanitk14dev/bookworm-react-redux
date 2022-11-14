@@ -14,35 +14,14 @@ import { UserContainer, UserInfoStyles } from './User.style';
 import { ErrorLabel } from "../../commonStyles";
 import { useAppDispatch, useAppSelector } from '../../app/hook';
 import { useEffect, useState } from 'react';
-import { addUser, userStateSelector } from "../../features/user/userSlice"
 import { IUser } from '../../models/user.model';
 
 const AddUserPage = () => {
 
   const dispatch = useAppDispatch();
-  const { status, msgError } = useAppSelector(userStateSelector);
   const [formValues, setFormValues] = useState<IUser>();
   const [isSubmitting, setIsSubmiting] = useState<boolean>(false);
   const [flashMsg, setFlashMsg] = useState<string>('');
-
-  useEffect(() => {
-    if (formValues) {
-      dispatch(addUser(formValues));
-    }
-  }, [formValues]);
-
-  useEffect(() => {
-    if (status === 'succeeded') {
-      setFlashMsg('Add user successfully new!')
-      const time = setTimeout(() => {
-        formik.handleReset({});
-        setFlashMsg('');
-      }, 3000);
-      return () => {
-        clearTimeout(time);
-      }
-    }
-  }, [status]);
 
   const formik = useFormik({
     initialValues: {
