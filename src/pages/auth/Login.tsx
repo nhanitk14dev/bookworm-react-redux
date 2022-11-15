@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 import { ErrorLabel } from "../../commonStyles";
-import { useAppDispatch, useAppSelector } from '../../app/hook'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { useNavigate } from "react-router-dom";
 import { IUser } from "../../models/user.model";
 

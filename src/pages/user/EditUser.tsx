@@ -12,7 +12,7 @@ import * as Yup from 'yup';
 import { Container, Alert } from "react-bootstrap";
 import { UserContainer, UserInfoStyles } from './User.style';
 import { ErrorLabel } from "../../commonStyles";
-import { useAppDispatch, useAppSelector } from '../../app/hook';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useEffect, useState } from 'react';
 import { IUser } from '../../models/user.model';
 import { useNavigate, useParams } from 'react-router-dom';

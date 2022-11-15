@@ -8,7 +8,7 @@ import {
   InfoContainer
 } from "./Header.style";
 
-import { useAppDispatch, useAppSelector } from '../../app/hook'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 
 const Navbar = () => {
 

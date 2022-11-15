@@ -115,6 +115,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## 4. Important
 
+  - Always import file to to top file like `import axios from 'axios'` to solve the error `Import in body of module; reorder to top`
   - [`React route v6`](https://github.com/remix-run/react-router/blob/main/docs/upgrading/v5.md#upgrade-to-react-router-v6)
     + Remove <Redirect>s inside <Switch>
 
@@ -140,5 +141,7 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 - We use `Contact` pages to demo Redux Saga
 - Remove un-use code and folder with Redux saga
-
+- Install [`Redux Saga`](https://redux-saga.js.org/docs/introduction/GettingStarted)
+- https://redux.js.org/usage/usage-with-typescript
+- Combine Reducer Rule: https://redux.js.org/api/combinereducers
 
