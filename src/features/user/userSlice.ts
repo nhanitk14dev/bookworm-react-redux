@@ -9,7 +9,7 @@
   Writing Logic with Thunks: https://redux.js.org/usage/writing-logic-thunks
 */
 
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit'
 import type { RootState } from '../../app/store'
 import { IUser } from '../../models/user.model';
 import axios from 'axios';
@@ -75,6 +75,10 @@ export const userSlice = createSlice({
       .addCase(fetchUser.fulfilled, (state, action) => {
         state.editingUser = action.payload;
       })
+      .addCase(fetchUser.rejected, (state, action) => {
+        state.status = 'failed'
+        state.msgError = 'Not found'
+      })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.editingUser = action.payload;
         state.status = 'succeeded'
@@ -123,10 +127,17 @@ export const fetchUser = createAsyncThunk(
   async (id: string, thunkAPI) => {
     try {
       const response = await fetch(`http://localhost:8080/users/${id}`);
-      let data = await response.json();
-      return data;
-    } catch (e) {
-      console.log("Error", e);
+
+      // Note: use Ok to check request, use 'status' not working to access rejected action
+      if (!response.ok) {
+        return thunkAPI.rejectWithValue(response);
+      }
+
+      return response.json();
+    } catch (e: any) {
+      if (!e.response) {
+        throw e;
+      }
       thunkAPI.rejectWithValue(e);
     }
 
@@ -138,8 +149,8 @@ export const fetchUsers = createAsyncThunk(
   'users/fetchUsers',
   async (params: any, thunkAPI) => {
     try {
-      const response = await axios.get(`http://localhost:8080/users`, {params: params});
-      return await response.data;
+      const response = await axios.get(`http://localhost:8080/users`, { params: params });
+      return response.data;
     } catch (e) {
       thunkAPI.rejectWithValue(e);
     }
@@ -153,7 +164,7 @@ export const addUser = createAsyncThunk(
   async (params: IUser, thunkAPI) => {
     try {
       const response = await axios.post(`http://localhost:8080/users/create`, params, {
-        headers: {'Content-Type': 'application/json'}
+        headers: { 'Content-Type': 'application/json' }
       });
       return response.data;
     } catch (error) {
@@ -168,7 +179,7 @@ export const updateUser = createAsyncThunk(
   async (params: IUser, thunkAPI) => {
     try {
       const response = await axios.put(`http://localhost:8080/users/update/${params.id}`, params, {
-        headers: {'Content-Type': 'application/json'}
+        headers: { 'Content-Type': 'application/json' }
       });
       return response.data;
     } catch (error) {
@@ -177,11 +188,26 @@ export const updateUser = createAsyncThunk(
   }
 );
 
+
 // Export States
 export const userStateSelector = (state: RootState) => state.user;
 
 // Export actions
 export const { logout } = userSlice.actions
+
+/*
+  https://redux.js.org/usage/deriving-data-selectors#createselector-overview
+  Reselect provides a function called createSelector to generate memoized selectors.
+*/
+
+const selectUsers = (state: UserState) => state.users;
+const selectUserId = (_: UserState, userId: string) => userId;
+
+export const getUserDetailSelector = createSelector(
+  selectUsers, selectUserId,
+  (users, userId) => users.filter(x => (`${x.id}`).toString() === userId).shift()
+);
+
 
 // Export userReducer as default
 export default userSlice.reducer;

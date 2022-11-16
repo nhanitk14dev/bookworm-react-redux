@@ -56,11 +56,11 @@ const ListUser = () => {
               </tr>
             </thead>
             <tbody>
-              {users.length ? users.map(user =>
+              {users ? users.map(user =>
                 <tr key={user.id}>
-                  <td><Link target="_blank" to={`${user.id}/edit`}>{user.id}</Link></td>
-                  <td><Link target="_blank" to={`${user.id}/edit`}>{user.name}</Link></td>
-                  <td><Link target="_blank" to={`${user.id}/edit-RTKquery`}>{user.name}</Link></td>
+                  <td><Link to={`${user.id}/edit`}>{user.id}</Link></td>
+                  <td><Link to={`${user.id}/edit`}>{user.name}</Link></td>
+                  <td><Link to={`${user.id}/edit-RTKquery`}>{user.name}</Link></td>
                   <td>{user.email}</td>
                   <td>{user.address}</td>
                 </tr>

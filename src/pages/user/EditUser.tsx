@@ -14,51 +14,58 @@ import { UserContainer, UserInfoStyles } from './User.style';
 import { ErrorLabel } from "../../commonStyles";
 import { useAppDispatch, useAppSelector } from '../../app/hook';
 import { useEffect, useState } from 'react';
-import { updateUser, userStateSelector, fetchUser } from "../../features/user/userSlice"
+import { updateUser, userStateSelector, fetchUser, getUserDetailSelector } from "../../features/user/userSlice"
 import { IUser } from '../../models/user.model';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const EditUserPage = (props: string) => {
+const EditUserPage = () => {
 
   const dispatch = useAppDispatch();
-  const { status, editingUser} = useAppSelector(userStateSelector);
+  const { status, editingUser, msgError } = useAppSelector(userStateSelector);
   const [formValues, setFormValues] = useState<IUser>();
-  //const [isSubmitting, setIsSubmiting] = useState<boolean>(false);
   const [flashMsg, setFlashMsg] = useState<string>('');
   const { userId } = useParams();
-  const navigate = useNavigate();
+  const userSelector: any = useAppSelector(state => getUserDetailSelector(state.user, userId as string));
 
+  // Call api when the state users is empty
   useEffect(() => {
-    if (userId) {
-      dispatch(fetchUser(userId));
-    } else {
-      navigate('/404')
+    if (!userSelector) {
+      dispatch(fetchUser(userId as string));
     }
-  }, [userId, dispatch, navigate]);
+  }, [dispatch, userSelector]);
 
   useEffect(() => {
     if (formValues) {
       dispatch(updateUser(formValues));
-    } 
+    }
   }, [formValues, dispatch]);
 
-  useEffect(() => {
-    if (editingUser) {
-      formik.setValues(editingUser);
-    } 
-  }, [editingUser]);
+  const userDetail = userSelector || editingUser;
 
   useEffect(() => {
-    console.log(status)
+    if (userDetail) {
+      formik.setValues(userDetail);
+    } 
+  }, [userDetail]);
+
+  useEffect(() => {
     // todo: should move to common service
-    if (status === 'succeeded') {
-      setFlashMsg('Update user successfully!')
-      const time = setTimeout(() => {
-        setFlashMsg('');
-      }, 3000);
-      return () => {
-        clearTimeout(time);
-      }
+    switch (status) {
+      case 'succeeded':
+        setFlashMsg('Update user successfully!');
+        break;
+      case 'failed':
+        setFlashMsg('Update failded!');
+        break;
+      default:
+        return;
+    }
+
+    const time = setTimeout(() => {
+      setFlashMsg('');
+    }, 5000);
+    return () => {
+      clearTimeout(time);
     }
 
   }, [status]);
@@ -80,7 +87,6 @@ const EditUserPage = (props: string) => {
       setFormValues(values);
     }
   });
-
 
   return (
     <>
