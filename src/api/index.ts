@@ -1,6 +1,9 @@
 export const apiBaseRoute = process.env.REACT_APP_API_BASE_URL;
 
 export const usersRouteApi = '/users';
+export const userDetailRouteApi = (id: string) => {
+  return `/users/${id}`;
+};
 
 export const createApiCall = async ({ method = 'GET', path = '', payload = {}, auth = false }) => {
   const headers: any = {
@@ -18,5 +21,5 @@ export const createApiCall = async ({ method = 'GET', path = '', payload = {}, a
     body: method === 'GET' ? undefined : JSON.stringify(payload)
   })
     .then(response => response.json())
-    .then(result => result);
+    .catch(error => error)
 }

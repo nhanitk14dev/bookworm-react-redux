@@ -16,15 +16,40 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useEffect, useState } from 'react';
 import { IUser } from '../../models/user.model';
 import { useNavigate, useParams } from 'react-router-dom';
+import { fetchUserAction } from '../../actions'
+import { getUserDetailSelector } from '../../reducers/users.reducer'
+
 
 const EditUserPage = (props: string) => {
 
   const dispatch = useAppDispatch();
   const [formValues, setFormValues] = useState<IUser>();
-  //const [isSubmitting, setIsSubmiting] = useState<boolean>(false);
   const [flashMsg, setFlashMsg] = useState<string>('');
   const { userId } = useParams();
   const navigate = useNavigate();
+  const userSelector: any = useAppSelector(state => getUserDetailSelector(state.userState, userId as string));
+  const { user } = useAppSelector(state => state.userState);
+
+  // Handle case users state is empty
+  useEffect(() => {
+    if (userSelector === undefined) {
+      console.log('--------call api fetch user by id-------')
+      dispatch(fetchUserAction(userId as string));
+    }
+  }, [userSelector, dispatch]);
+
+  const userDetail = userSelector === undefined ? user : userSelector;
+  // Item detail not found
+  if(userDetail === undefined) {
+    navigate('/404')
+  }
+
+  useEffect(() => {
+    if (userDetail) {
+      console.log(userDetail)
+      formik.setValues(userDetail);
+    }
+  }, [userDetail]);
 
   const formik = useFormik({
     initialValues: {
@@ -43,7 +68,6 @@ const EditUserPage = (props: string) => {
       setFormValues(values);
     }
   });
-
 
   return (
     <>

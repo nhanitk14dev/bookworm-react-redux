@@ -123,6 +123,8 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
   - Redux Toolkit: is already written in TypeScript, and its API is designed to provide a good experience for TypeScript usage.
 
+  - [`createStore`](https://redux.js.org/api/createstore): holds the complete state tree of your app
+
 # Tool & Extendstions in IDE Visual Studio Code
 1. Syntax highlighting [https://babeljs.io/docs/en/editors/]
 2. Code Debug [https://code.visualstudio.com/docs/editor/debugging]
