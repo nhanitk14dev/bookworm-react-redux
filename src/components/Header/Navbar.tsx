@@ -28,6 +28,7 @@ const Navbar = () => {
         <ul>
           <li><Link to="/" className="active">Home</Link></li>
           <li><Link to="/users">List Users</Link></li>
+          <li><Link to="/contact">Contact</Link></li>
           <Dropdown className="dropdown">
             <Link to="/products">Products<IconChervonDown /></Link>
             <ul>
@@ -45,10 +46,6 @@ const Navbar = () => {
               </Dropdown>
             </ul>
           </Dropdown>
-          <li><Link to="/services">Services</Link></li>
-          <li><Link to="/card">Card</Link></li>
-          <li><Link to="/blogs">Blog</Link></li>
-          <li><Link to="/contact">contact</Link></li>
           <li>
           {
             auth ? (<>

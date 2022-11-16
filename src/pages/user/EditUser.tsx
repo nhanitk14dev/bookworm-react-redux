@@ -14,13 +14,12 @@ import { UserContainer, UserInfoStyles } from './User.style';
 import { ErrorLabel } from "../../commonStyles";
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useEffect, useState } from 'react';
-import { IUser } from '../../models/user.model';
+import { IUser, ActionType } from '../../models/user.model';
 import { useNavigate, useParams } from 'react-router-dom';
-import { fetchUserAction } from '../../actions'
+import { fetchUserAction, updateUserDetailAction } from '../../actions'
 import { getUserDetailSelector } from '../../reducers/users.reducer'
 
-
-const EditUserPage = (props: string) => {
+const EditUserPage = () => {
 
   const dispatch = useAppDispatch();
   const [formValues, setFormValues] = useState<IUser>();
@@ -28,7 +27,8 @@ const EditUserPage = (props: string) => {
   const { userId } = useParams();
   const navigate = useNavigate();
   const userSelector: any = useAppSelector(state => getUserDetailSelector(state.userState, userId as string));
-  const { user } = useAppSelector(state => state.userState);
+  const { user, status, error, isLoading } = useAppSelector(state => state.userState);
+  const variantAlert = error ? 'danger' : 'success';
 
   // Handle case users state is empty
   useEffect(() => {
@@ -66,8 +66,31 @@ const EditUserPage = (props: string) => {
     }),
     onSubmit: (values: IUser) => {
       setFormValues(values);
+      dispatch(updateUserDetailAction(values));
     }
   });
+
+  useEffect(() => {
+    switch (status) {
+      case ActionType.USER_UPDATE_SUCCEEDED:
+        setFlashMsg('Update user detail successfully!');
+        break;
+      case ActionType.USER_UPDATE_FAILED:
+        setFlashMsg('Update user detail failed! Try again');
+        break;
+      default:
+        setFlashMsg('');
+    }
+
+    const timer = setTimeout(() => {
+      setFlashMsg('');
+    }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+    }
+
+  }, [status]);
 
   return (
     <>
@@ -76,7 +99,7 @@ const EditUserPage = (props: string) => {
           <UserInfoStyles>
             <h2>Edit User</h2>
             <div>
-              {flashMsg ? (<Alert key="success" variant="success">{flashMsg}</Alert>) : null}
+              {flashMsg ? (<Alert key={variantAlert} variant={variantAlert}>{flashMsg}</Alert>) : null}
             </div>
             <form className="form-user" onSubmit={formik.handleSubmit}>
               <div className="form-group mb-3">
@@ -88,6 +111,7 @@ const EditUserPage = (props: string) => {
                   placeholder="Enter email"
                   value={formik.values.email}
                   onChange={formik.handleChange}
+                  disabled={isLoading}
                 />
                 {formik.touched.email && formik.errors.email ? (
                   <ErrorLabel>{formik.errors.email}</ErrorLabel>
@@ -102,6 +126,7 @@ const EditUserPage = (props: string) => {
                   placeholder="Enter Password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
+                  disabled={isLoading}
                 />
                 {formik.touched.password && formik.errors.password ? (
                   <ErrorLabel>{formik.errors.password}</ErrorLabel>
@@ -116,6 +141,7 @@ const EditUserPage = (props: string) => {
                   placeholder="Enter User Name"
                   value={formik.values.name}
                   onChange={formik.handleChange}
+                  disabled={isLoading}
                 />
                 {formik.touched.name && formik.errors.name ? (
                   <ErrorLabel>{formik.errors.name}</ErrorLabel>
@@ -128,6 +154,7 @@ const EditUserPage = (props: string) => {
                   className="form-control"
                   value={formik.values.address}
                   onChange={formik.handleChange}
+                  disabled={isLoading}
                 />
                 {formik.touched.address && formik.errors.address ? (
                   <ErrorLabel>{formik.errors.address}</ErrorLabel>

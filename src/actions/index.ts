@@ -14,3 +14,13 @@ export const addUserDetailCreatorAction = (payload: IUser[]) => ({
   type: ActionType.USER_DETAIL_CREATOR,
   payload
 });
+
+export const updateUserDetailAction = (payload: {}) => ({
+  type: ActionType.USER_UPDATE_REQUESTED,
+  payload
+});
+
+export const addUserAction = (payload: {}) => ({
+  type: ActionType.USER_CREATE_REQUESTED,
+  payload
+});

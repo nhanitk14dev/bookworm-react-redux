@@ -64,7 +64,7 @@ export const Nav = styled.nav`
     list-style: none;
     align-items: center;
 
-    @media (max-width: 991px) {
+    @media (max-width: 679px) {
         display: none;
     }
 

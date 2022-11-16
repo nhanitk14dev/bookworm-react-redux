@@ -11,15 +11,17 @@ export interface UsersReducerType {
   user: any;
   error: string;
   isLoading: boolean;
-  userId: string
+  userId: string;
+  status: string;
 }
 
 export const initalUsersState: UsersReducerType = {
   users: [],
   user: undefined,
-  error: '',
   isLoading: false,
-  userId: ''
+  userId: '',
+  status: '',
+  error: '',
 }
 
 export const usersReducer = (
@@ -42,7 +44,7 @@ export const usersReducer = (
       return {
         ...state,
         isLoading: false,
-        error: 'Call Api fetch users is error'
+        error: 'Fetch users failed'
       }
     case ActionType.USER_DETAIL_FETCH_SUCCEEDED:
       return {
@@ -53,7 +55,44 @@ export const usersReducer = (
       return {
         ...state,
         error: 'Not found item'
-    }
+      }
+    case ActionType.USER_UPDATE_REQUESTED:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case ActionType.USER_UPDATE_SUCCEEDED:
+      return {
+        ...state,
+        user: action.payload,
+        status: ActionType.USER_UPDATE_SUCCEEDED,
+        isLoading: false
+      }
+    case ActionType.USER_UPDATE_FAILED:
+      return {
+        ...state,
+        status: ActionType.USER_UPDATE_FAILED,
+        isLoading: false
+      }
+    case ActionType.USER_CREATE_REQUESTED:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case ActionType.USER_CREATE_SUCCEEDED:
+      return {
+        ...state,
+        user: action.payload,
+        status: ActionType.USER_CREATE_SUCCEEDED,
+        isLoading: false
+      }
+    case ActionType.USER_CREATE_FAILED:
+      return {
+        ...state,
+        status: ActionType.USER_CREATE_FAILED,
+        isLoading: false
+      }
+      
     default:
       return state;
   }

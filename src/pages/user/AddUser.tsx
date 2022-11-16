@@ -14,14 +14,18 @@ import { UserContainer, UserInfoStyles } from './User.style';
 import { ErrorLabel } from "../../commonStyles";
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useEffect, useState } from 'react';
-import { IUser } from '../../models/user.model';
+import { IUser, ActionType } from '../../models/user.model';
+import { useNavigate } from 'react-router-dom';
+import { addUserAction } from '../../actions'
 
 const AddUserPage = () => {
 
   const dispatch = useAppDispatch();
   const [formValues, setFormValues] = useState<IUser>();
-  const [isSubmitting, setIsSubmiting] = useState<boolean>(false);
   const [flashMsg, setFlashMsg] = useState<string>('');
+  const navigator = useNavigate();
+  const { user, status, error, isLoading } = useAppSelector(state => state.userState);
+  const variantAlert = error ? 'danger' : 'success';
 
   const formik = useFormik({
     initialValues: {
@@ -38,8 +42,36 @@ const AddUserPage = () => {
     }),
     onSubmit: (values: IUser) => {
       setFormValues(values);
+      dispatch(addUserAction(values));
     }
   });
+
+  useEffect(() => {
+    switch (status) {
+      case ActionType.USER_CREATE_SUCCEEDED:
+        setFlashMsg('Add user successfully!');
+        break;
+      case ActionType.USER_CREATE_FAILED:
+        setFlashMsg('Add user failed! Try again');
+        break;
+      default:
+        setFlashMsg('');
+    }
+
+    const timer = setTimeout(() => {
+
+      // Redirect to edit page
+      if (status === ActionType.USER_CREATE_SUCCEEDED && user) {
+        navigator(`/users/${user.id}/edit`)
+      }
+      setFlashMsg('');
+    }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+    }
+
+  }, [status, user]);
 
 
   return (
@@ -49,7 +81,7 @@ const AddUserPage = () => {
           <UserInfoStyles>
             <h2>Add New User</h2>
             <div>
-              {flashMsg ? (<Alert key="success" variant="success">{flashMsg}</Alert>) : null}
+            {flashMsg ? (<Alert key={variantAlert} variant={variantAlert}>{flashMsg}</Alert>) : null}
             </div>
             <form className="form-user" onSubmit={formik.handleSubmit}>
               <div className="form-group mb-3">
@@ -61,6 +93,7 @@ const AddUserPage = () => {
                   placeholder="Enter email"
                   value={formik.values.email}
                   onChange={formik.handleChange}
+                  disabled={isLoading}
                 />
                 {formik.touched.email && formik.errors.email ? (
                   <ErrorLabel>{formik.errors.email}</ErrorLabel>
@@ -75,6 +108,7 @@ const AddUserPage = () => {
                   placeholder="Enter Password"
                   value={formik.values.password}
                   onChange={formik.handleChange}
+                  disabled={isLoading}
                 />
                 {formik.touched.password && formik.errors.password ? (
                   <ErrorLabel>{formik.errors.password}</ErrorLabel>
@@ -89,6 +123,7 @@ const AddUserPage = () => {
                   placeholder="Enter User Name"
                   value={formik.values.name}
                   onChange={formik.handleChange}
+                  disabled={isLoading}
                 />
                 {formik.touched.name && formik.errors.name ? (
                   <ErrorLabel>{formik.errors.name}</ErrorLabel>
@@ -101,6 +136,7 @@ const AddUserPage = () => {
                   className="form-control"
                   value={formik.values.address}
                   onChange={formik.handleChange}
+                  disabled={isLoading}
                 />
                 {formik.touched.address && formik.errors.address ? (
                   <ErrorLabel>{formik.errors.address}</ErrorLabel>

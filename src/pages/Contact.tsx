@@ -42,7 +42,7 @@ const Contact = () => {
       <UserContainer>
         <Container>
           <h2 className="title">Contact Users List</h2>
-          <Link to="add-new" relative="path" className="btn-main">Add New</Link>
+          <Link to="/users/add-new" className="btn-main">Add New</Link>
           <Table>
             <thead>
               <tr>
