@@ -4,7 +4,7 @@
   The useMemo callback will run when any value in its dependency array changes.
  */
 import { useMemo } from 'react'
-import { IPagination } from '../../models/user.model'
+import { IPagination } from '../../models'
 export const DOTS = -1;
 export const PER_PAGE = 4;
 

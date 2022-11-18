@@ -6,7 +6,7 @@ import {
   updateUserDetailRouteApi,
   createUserRouteApi
 } from '../api'
-import { ActionType, IAction, MethodType } from '../models/user.model';
+import { ActionType, IAction, MethodType } from '../models';
 
 /* watches for all USERS_FETCH_REQUESTED actions and triggers an API call to fetch the user data.
    worker Saga: will be fired on USERS_FETCH_REQUESTED actions, add any for type

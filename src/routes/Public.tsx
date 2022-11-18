@@ -1,20 +1,12 @@
 import { lazy } from 'react';
-
 const Home = lazy(() => import('../pages/home/Home'));
 const About = lazy(() => import('../pages/About'));
-const Contact = lazy(() => import('../pages/Contact'));
+const PageNotFound = lazy(() => import('../pages/PageNotFound'));
 
-export default {
-    Home: {
-        component: Home,
-        path: '/'
-    },
-    About: {
-        component: About,
-        path: '/about'
-    },
-    Contact: {
-        component: Contact,
-        path: '/contact'
-    },
-};
+const routes = [
+  { index: true, element: <Home /> },
+  { path: '/about', element: <About /> },
+  { path: "*", element: <PageNotFound /> },
+];
+
+export default routes;

@@ -1,9 +1,17 @@
+/* 
+  Models: including the common types & interface.
+  We should split them into small files if the project is large
+*/
+
+import React from "react";
+
 export interface IUser {
   id?: string;
   name: string;
   email: string;
   password: string;
   address: string;
+  token?: string;
 }
 
 export enum ActionType {
@@ -22,6 +30,10 @@ export enum ActionType {
   USER_CREATE_REQUESTED = 'USER_CREATE_REQUESTED',
   USER_CREATE_SUCCEEDED = 'USER_CREATE_SUCCEEDED',
   USER_CREATE_FAILED = 'USER_CREATE_FAILED',
+  //Login
+  USER_LOGIN_REQUESTED = 'USER_LOGIN_REQUESTED',
+  USER_LOGIN_SUCCEEDED = 'USER_LOGIN_SUCCEEDED',
+  USER_LOGIN_FAILED = 'USER_LOGIN_FAILED',
 }
 
 export interface IAction<T> {
@@ -43,4 +55,8 @@ export interface IPagination {
   currentPage: number;
   onPageChange: (page: number) => void;
   className?: string
+}
+
+export interface IRoute {
+  children: React.ReactElement
 }

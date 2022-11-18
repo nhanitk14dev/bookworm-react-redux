@@ -8,41 +8,67 @@
   - React Hook Form with ts: https://react-hook-form.com/ts/
 */
 import { useEffect, useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 import { ErrorLabel } from "../../commonStyles";
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { useNavigate } from "react-router-dom";
-import { IUser } from "../../models/user.model";
+import { ActionType, IUser } from "../../models";
+import { loginAction } from "../../actions";
+import { Alert } from "react-bootstrap";
 
 const Login = () => {
 
   // Get state from Redux
   const dispatch = useAppDispatch();
-  const isLoggedIn  = false;
-  const [isSubmit, setIsSubmit] = useState<boolean>(false);
-  const navigate = useNavigate(); //https://reactrouter.com/en/main/hooks/use-navigate
+  const navigate = useNavigate();
+  const { auth, status } = useAppSelector(state => state.userState);
+  const [flashMsg, setFlashMsg] = useState < string > ('');
+  const [variantAlert, setVariantAlert] = useState<string>('');
 
   // Multiple Error Messages: https://github.com/react-hook-form/error-message
-  const { register, formState: { errors }, handleSubmit } = useForm<IUser>({
+  const { register, formState: { errors }, handleSubmit } = useForm < IUser > ({
     criteriaMode: 'all',
   });
 
-  const onSubmit = (data: IUser) => {
-    setIsSubmit(true);
-    const hasErrors = Object.keys(errors).length;
-    // todo: handle with redux saga
+  const onSubmit = (formVaues: IUser) => {
+    dispatch(loginAction(formVaues))
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/users"); // redirect to users page
+    switch (status) {
+      case ActionType.USER_LOGIN_SUCCEEDED:
+        setVariantAlert('success');
+        setFlashMsg('Login successfully!');
+        break;
+      case ActionType.USER_LOGIN_FAILED:
+        setVariantAlert('danger');
+        setFlashMsg('Login failed! Try again');
+        break;
+      default:
+        setFlashMsg('');
     }
-  }, [isLoggedIn]);
+
+    const timer = setTimeout(() => {
+      setFlashMsg('');
+      if (auth?.token && status === ActionType.USER_LOGIN_SUCCEEDED) {
+        localStorage.setItem('token', auth.token);
+        navigate("/contact"); // redirect to contact page
+      }
+    }, 1500);
+
+    return () => {
+      clearTimeout(timer);
+    }
+
+  }, [status, auth, navigate]);
 
   return (
     <>
       <h2>Login Page</h2>
+      <div>
+        {flashMsg ? (<Alert key={variantAlert} variant={variantAlert}>{flashMsg}</Alert>) : null}
+      </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <label htmlFor="email">Email</label>
         <input
@@ -63,7 +89,6 @@ const Login = () => {
           errors={errors}
           name="email"
           render={({ messages }) => {
-            console.log("messages", messages);
             return messages
               ? Object.entries(messages).map(([type, message]) => (
                 <ErrorLabel key={type}>{message}</ErrorLabel>

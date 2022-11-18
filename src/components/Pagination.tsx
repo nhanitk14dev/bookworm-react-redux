@@ -1,4 +1,4 @@
-import { IPagination } from '../models/user.model'
+import { IPagination } from '../models'
 import { usePagination, DOTS } from '../app/hooks/usePagination'
 import { PaginationConatiner } from './Pagination.style'
 

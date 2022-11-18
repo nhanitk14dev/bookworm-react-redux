@@ -4,24 +4,26 @@
 */
 
 import { createSelector } from '@reduxjs/toolkit';
-import { IUser, IAction, ActionType } from '../models/user.model'
+import { IUser, IAction, ActionType } from '../models'
 
-export interface UsersReducerType {
+export type UsersReducerType = {
   users: IUser[];
   user: any;
   error: string;
   isLoading: boolean;
   userId: string;
   status: string;
+  auth: any;
 }
 
 export const initalUsersState: UsersReducerType = {
   users: [],
-  user: undefined,
+  user: {},
   isLoading: false,
   userId: '',
   status: '',
   error: '',
+  auth: {}
 }
 
 export const usersReducer = (
@@ -92,7 +94,26 @@ export const usersReducer = (
         status: ActionType.USER_CREATE_FAILED,
         isLoading: false
       }
-      
+
+    // authentication
+    case ActionType.USER_LOGIN_REQUESTED:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case ActionType.USER_LOGIN_SUCCEEDED:
+      return {
+        ...state,
+        auth: action.payload,
+        status: ActionType.USER_LOGIN_SUCCEEDED,
+        isLoading: false
+      }
+    case ActionType.USER_LOGIN_FAILED:
+      return {
+        ...state,
+        status: ActionType.USER_LOGIN_FAILED,
+        isLoading: false
+      }
     default:
       return state;
   }

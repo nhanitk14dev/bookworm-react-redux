@@ -14,7 +14,7 @@ import { UserContainer, UserInfoStyles } from './User.style';
 import { ErrorLabel } from "../../commonStyles";
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useEffect, useState } from 'react';
-import { IUser, ActionType } from '../../models/user.model';
+import { IUser, ActionType } from '../../models';
 import { useNavigate, useParams } from 'react-router-dom';
 import { fetchUserAction, updateUserDetailAction } from '../../actions'
 import { getUserDetailSelector } from '../../reducers/users.reducer'

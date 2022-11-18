@@ -1,4 +1,4 @@
-import { ActionType, IUser } from "../models/user.model";
+import { ActionType, IUser } from "../models";
 
 export const fetchUsersAction = (payload?: string) => ({
   type: ActionType.USERS_FETCH_REQUESTED,
@@ -22,5 +22,10 @@ export const updateUserDetailAction = (payload: {}) => ({
 
 export const addUserAction = (payload: {}) => ({
   type: ActionType.USER_CREATE_REQUESTED,
+  payload
+});
+
+export const loginAction = (payload: {}) => ({
+  type: ActionType.USER_LOGIN_REQUESTED,
   payload
 });
