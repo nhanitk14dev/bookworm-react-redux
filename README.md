@@ -1,4 +1,4 @@
-# Bookworm React Redux - TypeScripts
+# React Redux Saga - TypeScripts
 
 # I. Installation
 
