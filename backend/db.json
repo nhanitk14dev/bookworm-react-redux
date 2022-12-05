@@ -3,10 +3,10 @@
     {
       "id": 1,
       "name": "test",
-      "email": "test@mail.com",
+      "email": "test@gmail.com",
       "address": "South street",
       "token": "token-xxx1x1",
-      "password": "11xx22"
+      "password": "1234"
     },
     {
       "id": 2,

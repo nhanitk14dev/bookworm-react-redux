@@ -1,46 +1,31 @@
-/*
-  Use: https://react-hook-form.com/get-started
-  There are some ways to validate form: 
-  - Use @hookform/error-message to show message validate for Email field
-  - Use only error state to show msg the password
-  - Use Custom Hook with Resolver "yup"
-  https://codesandbox.io/s/react-hook-form-apply-validation-ts-forked-nmbyh?file=/src/index.tsx
-  - React Hook Form with ts: https://react-hook-form.com/ts/
-*/
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { ErrorMessage } from '@hookform/error-message';
-import { ErrorLabel } from "../../commonStyles";
-import { useAppDispatch, useAppSelector } from '../../app/hook'
-import { loginUser, userStateSelector, ILoginForm } from "../../features/user/userSlice";
+import { ErrorMessage } from "@hookform/error-message";
+import { ErrorLabel } from "../../styles/commonStyles";
+import { useAppDispatch, useAppSelector } from "../../app/hook";
+import { loginUser, ILoginForm } from "../../features/user/userSlice";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-
-  // Get state from Redux
   const dispatch = useAppDispatch();
-  const { isLoggedIn } = useAppSelector(userStateSelector);
-  const [isSubmit, setIsSubmit] = useState<boolean>(false);
-  const navigate = useNavigate(); //https://reactrouter.com/en/main/hooks/use-navigate
+  const navigate = useNavigate()
+  const {isLoggedIn} = useAppSelector((state) => state.user);
 
-  // Multiple Error Messages: https://github.com/react-hook-form/error-message
-  const { register, formState: { errors }, handleSubmit } = useForm<ILoginForm>({
-    criteriaMode: 'all',
-  });
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<ILoginForm>();
 
   const onSubmit: SubmitHandler<ILoginForm> = (data) => {
-    setIsSubmit(true);
-    const hasErrors = Object.keys(errors).length;
-    if (!hasErrors) {
-      dispatch(loginUser(data));
-    }
+    dispatch(loginUser(data))
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/users"); // redirect to users page
+    if(isLoggedIn) {
+      navigate('/users')
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, navigate])
 
   return (
     <>
@@ -52,11 +37,11 @@ const Login = () => {
             required: "This input is required.",
             maxLength: {
               value: 120,
-              message: "This input is exceed maxLength"
+              message: "This input is exceed maxLength",
             },
             pattern: {
               value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i,
-              message: "This is not a valid email format!"
+              message: "This is not a valid email format!",
             },
           })}
         />
@@ -68,8 +53,8 @@ const Login = () => {
             console.log("messages", messages);
             return messages
               ? Object.entries(messages).map(([type, message]) => (
-                <ErrorLabel key={type}>{message}</ErrorLabel>
-              ))
+                  <ErrorLabel key={type}>{message}</ErrorLabel>
+                ))
               : null;
           }}
         />
@@ -78,14 +63,17 @@ const Login = () => {
         <input
           {...register("password", {
             required: true,
-          })} />
+          })}
+        />
 
-        {errors?.password?.type === "required" ? <ErrorLabel>This input is required.</ErrorLabel> : null}
+        {errors?.password?.type === "required" ? (
+          <ErrorLabel>This input is required.</ErrorLabel>
+        ) : null}
 
         <input type="submit" />
       </form>
     </>
   );
-}
+};
 
 export default Login;

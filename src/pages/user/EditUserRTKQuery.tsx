@@ -7,25 +7,24 @@
   useFormik() is a custom React hook. Only use this hook if you are NOT using <Formik> or withFormik.
 */
 
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import { useFormik } from "formik";
+import { string, object } from "yup";
 import { Container, Alert } from "react-bootstrap";
-import { UserContainer, UserInfoStyles } from './User.style';
-import { ErrorLabel } from "../../commonStyles";
-import { useEffect, useState } from 'react';
-import { IUser } from '../../models/user.model';
-import { useNavigate, useParams } from 'react-router-dom';
+import { UserContainer, UserInfoStyles } from "./User.style";
+import { ErrorLabel } from "../../styles/commonStyles";
+import { useEffect, useState } from "react";
+import { IUser } from "../../models";
+import { useNavigate, useParams } from "react-router-dom";
 
 // Other ways to get user detail from RTK Query in service
 import {
   useGetUserByIdQuery,
   useUpdateUserByIdMutation,
-  useDeleteUserByIdMutation
-} from '../../services/userService';
+  useDeleteUserByIdMutation,
+} from "../../services/userService";
 
 const EditUserRTKQuery = () => {
-
-  const [flashMsg, setFlashMsg] = useState<string>('');
+  const [flashMsg, setFlashMsg] = useState<string>("");
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isDisabledForm, setIsDisabledForm] = useState<boolean>(false);
   const { userId } = useParams();
@@ -46,37 +45,34 @@ const EditUserRTKQuery = () => {
   const [deleteUserById, utilityDeleting] = useDeleteUserByIdMutation();
 
   useEffect(() => {
-    if (data) {
-      formik.setValues(data);
-    }
-  }, [data]);
-
-  useEffect(() => {
     // todo: should move to common service
     if (flashMsg) {
       const time = setTimeout(() => {
-        setFlashMsg('');
+        setFlashMsg("");
       }, 3000);
 
       return () => {
         clearTimeout(time);
-      }
+      };
     }
-
   }, [flashMsg]);
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      name: '',
-      address: '',
-      password: ''
+      email: "",
+      name: "",
+      address: "",
+      password: "",
     },
-    validationSchema: Yup.object({
-      name: Yup.string().max(15, 'Must be 15 characters or less').required('Required'),
-      email: Yup.string().email('Invalid email address').required('Required'),
-      address: Yup.string().max(100, 'Must be 100 characters or less'),
-      password: Yup.string().max(15, 'Must be 15 characters or less').required('Required'),
+    validationSchema: object({
+      name: string()
+        .max(15, "Must be 15 characters or less")
+        .required("Required"),
+      email: string().email("Invalid email address").required("Required"),
+      address: string().max(100, "Must be 100 characters or less"),
+      password: string()
+        .max(15, "Must be 15 characters or less")
+        .required("Required"),
     }),
     onSubmit: (values: IUser) => {
       setIsEditing(true);
@@ -84,41 +80,46 @@ const EditUserRTKQuery = () => {
       let params = { ...values, id: userId };
       updateUserById(params)
         .then((result) => {
-          console.log('Update success', result);
-          setFlashMsg('Update user successfully!')
+          console.log("Update success", result);
+          setFlashMsg("Update user successfully!");
           setIsEditing(false);
         })
-        .catch((error) => console.error('Update Error', error))
-    }
+        .catch((error) => console.error("Update Error", error));
+    },
   });
 
+  useEffect(() => {
+    if (data) {
+      formik.setValues(data);
+    }
+  }, [data, formik]);
 
   // Handle status deleting
   useEffect(() => {
-    if (utilityDeleting.isLoading) {
+    if (utilityDeleting?.isLoading) {
       setIsDisabledForm(true);
     }
 
-    if (utilityDeleting.isError) {
-      console.error('Deleting user was error')
+    if (utilityDeleting?.isError) {
+      console.error("Deleting user was error");
     }
 
-    if (utilityDeleting.isSuccess) {
-      setFlashMsg('Delete user successfully!');
+    if (utilityDeleting?.isSuccess) {
+      setFlashMsg("Delete user successfully!");
       setTimeout(() => {
-        navigate('/users');
+        navigate("/users");
       }, 3000);
     }
-  }, [
-    utilityDeleting.isLoading,
-    utilityDeleting.isError,
-    utilityDeleting.isSuccess
-  ]);
+  }, [utilityDeleting, navigate]);
 
   return (
     <>
       {error ? (
-        <><Container><h3>Oh no, there was an error or redirect to 404 pages</h3></Container></>
+        <>
+          <Container>
+            <h3>Oh no, there was an error or redirect to 404 pages</h3>
+          </Container>
+        </>
       ) : isLoading ? (
         <>Loading...</>
       ) : data ? (
@@ -128,7 +129,11 @@ const EditUserRTKQuery = () => {
               <UserInfoStyles>
                 <h2>Edit User</h2>
                 <div>
-                  {flashMsg ? (<Alert key="success" variant="success">{flashMsg}</Alert>) : null}
+                  {flashMsg ? (
+                    <Alert key="success" variant="success">
+                      {flashMsg}
+                    </Alert>
+                  ) : null}
                 </div>
                 <form className="form-user" onSubmit={formik.handleSubmit}>
                   <div className="form-group mb-3">
@@ -147,7 +152,7 @@ const EditUserRTKQuery = () => {
                     ) : null}
                   </div>
                   <div className="form-group mb-3">
-                    <label htmlFor='password'>Password</label>
+                    <label htmlFor="password">Password</label>
                     <input
                       name="password"
                       type="password"
@@ -162,7 +167,7 @@ const EditUserRTKQuery = () => {
                     ) : null}
                   </div>
                   <div className="form-group mb-3">
-                    <label htmlFor='username'>User Name</label>
+                    <label htmlFor="username">User Name</label>
                     <input
                       name="name"
                       type="text"
@@ -189,24 +194,31 @@ const EditUserRTKQuery = () => {
                       <ErrorLabel>{formik.errors.address}</ErrorLabel>
                     ) : null}
                   </div>
-                  <button type="submit" disabled={isEditing} className="btn btn-main">Update</button>
+                  <button
+                    type="submit"
+                    disabled={isEditing}
+                    className="btn btn-main"
+                  >
+                    Update
+                  </button>
                 </form>
 
-                <div className='mt-2'>
+                <div className="mt-2">
                   <button
                     className="btn btn-main"
                     onClick={() => deleteUserById(`${userId}`)}
                     disabled={utilityDeleting.isLoading}
-                  >Delele</button>
+                  >
+                    Delete
+                  </button>
                 </div>
-
               </UserInfoStyles>
             </Container>
           </UserContainer>
         </>
       ) : null}
     </>
-  )
-}
+  );
+};
 
 export default EditUserRTKQuery;

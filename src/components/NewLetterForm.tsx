@@ -12,7 +12,7 @@
 */
 
 import { useEffect, useState } from 'react';
-import { ErrorLabel, NewsLetterForm, NewsLetterFormGroup } from "../commonStyles";
+import { ErrorLabel, NewsLetterForm, NewsLetterFormGroup } from "../styles/commonStyles";
 
 
 const NewLetterForm = () => {

@@ -2,28 +2,30 @@
   Nested Routes: https://reactrouter.com/en/main/start/overview
 */
 
-import { lazy } from 'react';
+import { lazy } from "react";
 
-const ListUser = lazy(() => import('../pages/user/ListUser'));
-const AddUser = lazy(() => import('../pages/user/AddUser'));
-const EditUser = lazy(() => import('../pages/user/EditUser'));
-const EditUserRTKQuery = lazy(() => import('../pages/user/EditUserRTKQuery'));
+const ListUser = lazy(() => import("../pages/user/ListUser"));
+const AddUser = lazy(() => import("../pages/user/AddUser"));
+const EditUser = lazy(() => import("../pages/user/EditUser"));
+const EditUserRTKQuery = lazy(() => import("../pages/user/EditUserRTKQuery"));
 
-export default {
-  ListUser: {
-    path: '/users',
-    component: ListUser
+const routes = [
+  {
+    path: "/users",
+    component: <ListUser />,
   },
-  AddUser: {
+  {
     path: "/users/add-new",
-    component: AddUser,
+    component: <AddUser />,
   },
-  EditUser: {
+  {
     path: "/users/:userId/edit",
-    component: EditUser,
+    component: <EditUser />,
   },
-  EditUserRTKQuery: {
+  {
     path: "/users/:userId/edit-RTKquery",
-    component: EditUserRTKQuery,
-  }
-};
+    component: <EditUserRTKQuery />,
+  },
+];
+
+export default routes;

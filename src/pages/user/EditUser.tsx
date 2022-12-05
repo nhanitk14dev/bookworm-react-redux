@@ -7,32 +7,38 @@
   useFormik() is a custom React hook. Only use this hook if you are NOT using <Formik> or withFormik.
 */
 
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import { useFormik } from "formik";
+import { string, object } from "yup";
 import { Container, Alert } from "react-bootstrap";
-import { UserContainer, UserInfoStyles } from './User.style';
-import { ErrorLabel } from "../../commonStyles";
-import { useAppDispatch, useAppSelector } from '../../app/hook';
-import { useEffect, useState } from 'react';
-import { updateUser, userStateSelector, fetchUser, getUserDetailSelector } from "../../features/user/userSlice"
-import { IUser } from '../../models/user.model';
-import { useNavigate, useParams } from 'react-router-dom';
+import { UserContainer, UserInfoStyles } from "./User.style";
+import { ErrorLabel } from "../../styles/commonStyles";
+import { useAppDispatch, useAppSelector } from "../../app/hook";
+import { useEffect, useState } from "react";
+import {
+  updateUser,
+  userStateSelector,
+  fetchUser,
+  getUserDetailSelector,
+} from "../../features/user/userSlice";
+import { IUser } from "../../models";
+import { useParams } from "react-router-dom";
 
 const EditUserPage = () => {
-
   const dispatch = useAppDispatch();
-  const { status, editingUser, msgError } = useAppSelector(userStateSelector);
+  const { status, editingUser } = useAppSelector(userStateSelector);
   const [formValues, setFormValues] = useState<IUser>();
-  const [flashMsg, setFlashMsg] = useState<string>('');
+  const [flashMsg, setFlashMsg] = useState<string>("");
   const { userId } = useParams();
-  const userSelector: any = useAppSelector(state => getUserDetailSelector(state.user, userId as string));
+  const userSelector: any = useAppSelector((state) =>
+    getUserDetailSelector(state.user, userId as string)
+  );
 
   // Call api when the state users is empty
   useEffect(() => {
     if (!userSelector) {
       dispatch(fetchUser(userId as string));
     }
-  }, [dispatch, userSelector]);
+  }, [dispatch, userSelector, userId]);
 
   useEffect(() => {
     if (formValues) {
@@ -40,53 +46,56 @@ const EditUserPage = () => {
     }
   }, [formValues, dispatch]);
 
-  const userDetail = userSelector || editingUser;
-
-  useEffect(() => {
-    if (userDetail) {
-      formik.setValues(userDetail);
-    } 
-  }, [userDetail]);
-
   useEffect(() => {
     // todo: should move to common service
     switch (status) {
-      case 'succeeded':
-        setFlashMsg('Update user successfully!');
+      case "succeeded":
+        setFlashMsg("Update user successfully!");
         break;
-      case 'failed':
-        setFlashMsg('Update failded!');
+      case "failed":
+        setFlashMsg("Update failded!");
         break;
       default:
         return;
     }
 
     const time = setTimeout(() => {
-      setFlashMsg('');
+      setFlashMsg("");
     }, 5000);
     return () => {
       clearTimeout(time);
-    }
-
+    };
   }, [status]);
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      name: '',
-      address: '',
-      password: ''
+      email: "",
+      name: "",
+      address: "",
+      password: "",
     },
-    validationSchema: Yup.object({
-      name: Yup.string().max(15, 'Must be 15 characters or less').required('Required'),
-      email: Yup.string().email('Invalid email address').required('Required'),
-      address: Yup.string().max(100, 'Must be 100 characters or less'),
-      password: Yup.string().max(15, 'Must be 15 characters or less').required('Required'),
+    validationSchema: object({
+      name: string()
+        .max(15, "Must be 15 characters or less")
+        .required("Required"),
+      email: string().email("Invalid email address").required("Required"),
+      address: string().max(100, "Must be 100 characters or less"),
+      password: string()
+        .max(15, "Must be 15 characters or less")
+        .required("Required"),
     }),
     onSubmit: (values: IUser) => {
       setFormValues(values);
-    }
+    },
   });
+
+  const userDetail = userSelector || editingUser;
+
+  useEffect(() => {
+    if (userDetail) {
+      formik.setValues(userDetail);
+    }
+  }, [userDetail, formik]);
 
   return (
     <>
@@ -95,7 +104,11 @@ const EditUserPage = () => {
           <UserInfoStyles>
             <h2>Edit User</h2>
             <div>
-              {flashMsg ? (<Alert key="success" variant="success">{flashMsg}</Alert>) : null}
+              {flashMsg ? (
+                <Alert key="success" variant="success">
+                  {flashMsg}
+                </Alert>
+              ) : null}
             </div>
             <form className="form-user" onSubmit={formik.handleSubmit}>
               <div className="form-group mb-3">
@@ -113,7 +126,7 @@ const EditUserPage = () => {
                 ) : null}
               </div>
               <div className="form-group mb-3">
-                <label htmlFor='password'>Password</label>
+                <label htmlFor="password">Password</label>
                 <input
                   name="password"
                   type="password"
@@ -127,7 +140,7 @@ const EditUserPage = () => {
                 ) : null}
               </div>
               <div className="form-group mb-3">
-                <label htmlFor='username'>User Name</label>
+                <label htmlFor="username">User Name</label>
                 <input
                   name="name"
                   type="text"
@@ -152,13 +165,15 @@ const EditUserPage = () => {
                   <ErrorLabel>{formik.errors.address}</ErrorLabel>
                 ) : null}
               </div>
-              <button type="submit" className="btn btn-main">Update</button>
+              <button type="submit" className="btn btn-main">
+                Update
+              </button>
             </form>
           </UserInfoStyles>
         </Container>
       </UserContainer>
     </>
   );
-}
+};
 
 export default EditUserPage;

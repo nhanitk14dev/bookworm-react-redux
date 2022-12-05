@@ -3,7 +3,7 @@
    Add this service to your store
 */
 //import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { IUser } from '../models/user.model';
+import { IUser } from '../models';
 import { api } from './api';
 
 export const userServiceApi = api.injectEndpoints({
