@@ -8,43 +8,48 @@
 */
 
 import { useFormik } from "formik";
-import { string, object } from "yup";
 import { Container, Alert } from "react-bootstrap";
 import { UserContainer, UserInfoStyles } from "./User.style";
 import { ErrorLabel } from "../../styles/commonStyles";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import { useEffect, useState } from "react";
-import {
-  updateUser,
-  userStateSelector,
-  fetchUser,
-  getUserDetailSelector,
-} from "../../features/user/userSlice";
-import { IUser } from "../../models";
+import { updateUser, getUserDetailSelector } from "../../features";
 import { useParams } from "react-router-dom";
+import { EditUserSchema } from "../../validation/auth";
+import { IUser } from "./../../models/index";
+const baseAPI = process.env.REACT_APP_API_BASE_URL;
 
 const EditUserPage = () => {
   const dispatch = useAppDispatch();
-  const { status, editingUser } = useAppSelector(userStateSelector);
-  const [formValues, setFormValues] = useState<IUser>();
   const [flashMsg, setFlashMsg] = useState<string>("");
   const { userId } = useParams();
-  const userSelector: any = useAppSelector((state) =>
+  const userSelector = useAppSelector((state) =>
     getUserDetailSelector(state.user, userId as string)
   );
+  const { editUser, status } = useAppSelector((state) => state.user);
+  const userDetail = userSelector ?? editUser;
+  const isLoading = status === "loading";
 
-  // Call api when the state users is empty
-  useEffect(() => {
-    if (!userSelector) {
-      dispatch(fetchUser(userId as string));
-    }
-  }, [dispatch, userSelector, userId]);
+  const formik = useFormik({
+    initialValues: userDetail,
+    validationSchema: EditUserSchema,
+    onSubmit: (values: IUser) => {
+      dispatch(updateUser(values));
+    },
+  });
 
+  // Case refresh pages, user detail undefine
   useEffect(() => {
-    if (formValues) {
-      dispatch(updateUser(formValues));
+    if (!formik.values?.email) {
+      fetch(`${baseAPI}/users/${userId}`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.email) {
+            formik.setValues(data);
+          }
+        });
     }
-  }, [formValues, dispatch]);
+  }, [formik, userId]);
 
   useEffect(() => {
     // todo: should move to common service
@@ -61,41 +66,11 @@ const EditUserPage = () => {
 
     const time = setTimeout(() => {
       setFlashMsg("");
-    }, 5000);
+    }, 1500);
     return () => {
       clearTimeout(time);
     };
   }, [status]);
-
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      name: "",
-      address: "",
-      password: "",
-    },
-    validationSchema: object({
-      name: string()
-        .max(15, "Must be 15 characters or less")
-        .required("Required"),
-      email: string().email("Invalid email address").required("Required"),
-      address: string().max(100, "Must be 100 characters or less"),
-      password: string()
-        .max(15, "Must be 15 characters or less")
-        .required("Required"),
-    }),
-    onSubmit: (values: IUser) => {
-      setFormValues(values);
-    },
-  });
-
-  const userDetail = userSelector || editingUser;
-
-  useEffect(() => {
-    if (userDetail) {
-      formik.setValues(userDetail);
-    }
-  }, [userDetail, formik]);
 
   return (
     <>
@@ -120,23 +95,10 @@ const EditUserPage = () => {
                   placeholder="Enter email"
                   value={formik.values.email}
                   onChange={formik.handleChange}
+                  disabled={isLoading}
                 />
                 {formik.touched.email && formik.errors.email ? (
                   <ErrorLabel>{formik.errors.email}</ErrorLabel>
-                ) : null}
-              </div>
-              <div className="form-group mb-3">
-                <label htmlFor="password">Password</label>
-                <input
-                  name="password"
-                  type="password"
-                  className="form-control"
-                  placeholder="Enter Password"
-                  value={formik.values.password}
-                  onChange={formik.handleChange}
-                />
-                {formik.touched.password && formik.errors.password ? (
-                  <ErrorLabel>{formik.errors.password}</ErrorLabel>
                 ) : null}
               </div>
               <div className="form-group mb-3">
@@ -148,6 +110,7 @@ const EditUserPage = () => {
                   placeholder="Enter User Name"
                   value={formik.values.name}
                   onChange={formik.handleChange}
+                  disabled={isLoading}
                 />
                 {formik.touched.name && formik.errors.name ? (
                   <ErrorLabel>{formik.errors.name}</ErrorLabel>
@@ -160,12 +123,17 @@ const EditUserPage = () => {
                   className="form-control"
                   value={formik.values.address}
                   onChange={formik.handleChange}
+                  disabled={isLoading}
                 />
                 {formik.touched.address && formik.errors.address ? (
                   <ErrorLabel>{formik.errors.address}</ErrorLabel>
                 ) : null}
               </div>
-              <button type="submit" className="btn btn-main">
+              <button
+                type="submit"
+                className="btn btn-main"
+                disabled={isLoading}
+              >
                 Update
               </button>
             </form>

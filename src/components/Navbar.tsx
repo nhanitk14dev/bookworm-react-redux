@@ -1,11 +1,11 @@
 import { Link } from "react-router-dom";
-import { Nav, IconList, Logo, InfoContainer } from "./Header.style";
-import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { logout, userStateSelector } from "../../features/user/userSlice";
+import { Nav, IconList, Logo, InfoContainer } from "./header/Header.style";
+import { useAppDispatch, useAppSelector } from "../app/hook";
+import { logout } from "../features";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
-  const { auth } = useAppSelector(userStateSelector);
+  const { auth } = useAppSelector((state) => state.auth);
 
   return (
     <>
@@ -26,7 +26,7 @@ const Navbar = () => {
             <Link to="/contact">contact</Link>
           </li>
           <li>
-            {auth ? (
+            {auth?.isLoggedIn ? (
               <>
                 <InfoContainer>
                   <span className="info">Hi, {auth.name}</span>

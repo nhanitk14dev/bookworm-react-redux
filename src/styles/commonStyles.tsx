@@ -1,5 +1,9 @@
-import styled, { createGlobalStyle } from 'styled-components';
-import { ChevronDown, ChevronRight, ArrowUpCircle } from "@styled-icons/bootstrap"
+import styled, { createGlobalStyle } from "styled-components";
+import {
+  ChevronDown,
+  ChevronRight,
+  ArrowUpCircle,
+} from "@styled-icons/bootstrap";
 
 const CommonStyles = createGlobalStyle`
   *{
@@ -11,14 +15,14 @@ const CommonStyles = createGlobalStyle`
 `;
 
 export const IconChervonDown = styled(ChevronDown)`
-    height: 10px;
-    width: 10px;
-    margin-left: 5px;
+  height: 10px;
+  width: 10px;
+  margin-left: 5px;
 `;
 
 export const IconChervonRight = styled(ChevronRight)`
-    height: 10px;
-    width: 10px;
+  height: 10px;
+  width: 10px;
 `;
 
 export const IconArrowUpCircle = styled(ArrowUpCircle)`
@@ -37,13 +41,13 @@ export const NewsLetterForm = styled.form`
   position: relative;
   border-radius: 4px;
 
-  input[type=email] {
+  input[type="email"] {
     border: 0;
     padding: 4px;
     width: 100%;
   }
 
-  input[type=submit] {
+  input[type="submit"] {
     height: 40px;
     border: none;
     background: none;

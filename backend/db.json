@@ -9,16 +9,8 @@
       "password": "1234"
     },
     {
-      "id": 2,
-      "name": "John",
-      "email": "john@mail.com",
-      "address": "North street",
-      "token": "token-xxx112",
-      "password": "11xx22"
-    },
-    {
       "id": 3,
-      "name": "Robert",
+      "name": "Robert 123",
       "email": "robert@mail.com",
       "address": "East street",
       "token": "token-xxx1244",
@@ -41,9 +33,9 @@
       "id": 5
     },
     {
-      "name": "Lisaaxxxx",
+      "name": "Linh sa",
       "email": "Lisaa@mail.com",
-      "address": "West street",
+      "address": "West streeta dasd  ss",
       "token": "token-xxx1999",
       "password": "11xx22",
       "id": 6

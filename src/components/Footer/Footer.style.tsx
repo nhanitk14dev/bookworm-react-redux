@@ -1,30 +1,30 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const SocialLinkContainer = styled.div`
-    position: relative;
-    margin: 10px 0;
-    display: flex;
+  position: relative;
+  margin: 10px 0;
+  display: flex;
 
-    a {
-      font-size: 18px;
-      display: inline-block;
-      background: rgba(255,255,255,0.1);
-      color: #fff;
-      line-height: 1;
-      padding: 5px;
-      margin-right: 4px;
-      border-radius: 4px;
-      text-align: center;
-      width: 36px;
-      height: 36px;
-      -webkit-transition: 0.3s;
-      transition: 0.3s;
-    }
+  a {
+    font-size: 18px;
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    line-height: 1;
+    padding: 5px;
+    margin-right: 4px;
+    border-radius: 4px;
+    text-align: center;
+    width: 36px;
+    height: 36px;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+  }
 
-    a:hover {
-      background: #d9232d;
-      color: #fff;
-    }
+  a:hover {
+    background: #d9232d;
+    color: #fff;
+  }
 `;
 
 export const FooterSection = styled.footer`
@@ -85,7 +85,6 @@ export const FooterTop = styled.div`
     padding-top: 0;
   }
 
-
   .footer-links a {
     color: rgba(255, 255, 255, 0.6);
     transition: 0.3s;
@@ -96,7 +95,6 @@ export const FooterTop = styled.div`
   .footer-links a:hover {
     color: white;
   }
-
 `;
 
 export const FooterBottom = styled.div`
@@ -111,7 +109,6 @@ export const FooterBottom = styled.div`
     font-size: 13px;
     color: rgba(255, 255, 255, 0.6);
   }
-
 
   .credits a {
     color: rgba(255, 255, 255, 0.6);

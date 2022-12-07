@@ -1,76 +1,117 @@
 import { useEffect } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
 import { ErrorLabel } from "../../styles/commonStyles";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { loginUser, ILoginForm } from "../../features/user/userSlice";
+import { loginUser } from "../../features";
 import { useNavigate } from "react-router-dom";
+import { Alert } from "react-bootstrap";
+import { useState } from "react";
+import { LoginFormType } from "../../models";
+import { LoginSchema } from "./../../validation/auth";
+import { useFormik } from "formik";
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate()
-  const {isLoggedIn} = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
+  const [flashMsg, setFlashMsg] = useState<string>("");
+  const [variantAlert, setVariantAlert] = useState<string>();
+  const { auth, status, msgError } = useAppSelector((state) => state.auth);
+  const isLoading = status === "loading";
 
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm<ILoginForm>();
-
-  const onSubmit: SubmitHandler<ILoginForm> = (data) => {
-    dispatch(loginUser(data))
-  };
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: LoginSchema,
+    onSubmit: (values: LoginFormType) => {
+      dispatch(loginUser(values));
+    },
+  });
 
   useEffect(() => {
-    if(isLoggedIn) {
-      navigate('/users')
+    switch (status) {
+      case "loading":
+        console.log("loading");
+        break;
+      case "succeeded":
+        if (msgError) {
+          setVariantAlert("warning");
+          setFlashMsg(msgError);
+        }
+
+        if (auth?.isLoggedIn) {
+          setFlashMsg("Log in successfully");
+          setVariantAlert("success");
+          setTimeout(() => {
+            navigate("/users");
+          }, 1500);
+        }
+
+        break;
+      case "failed":
+        setVariantAlert("warning");
+        setFlashMsg(msgError);
+        break;
+      default:
+        break;
     }
-  }, [isLoggedIn, navigate])
+
+    if (msgError) {
+      setTimeout(() => {
+        setFlashMsg("");
+      }, 1500);
+    }
+  }, [status, auth, msgError, navigate]);
 
   return (
     <>
       <h2>Login Page</h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <label htmlFor="email">Email</label>
-        <input
-          {...register("email", {
-            required: "This input is required.",
-            maxLength: {
-              value: 120,
-              message: "This input is exceed maxLength",
-            },
-            pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i,
-              message: "This is not a valid email format!",
-            },
-          })}
-        />
-
-        <ErrorMessage
-          errors={errors}
-          name="email"
-          render={({ messages }) => {
-            console.log("messages", messages);
-            return messages
-              ? Object.entries(messages).map(([type, message]) => (
-                  <ErrorLabel key={type}>{message}</ErrorLabel>
-                ))
-              : null;
-          }}
-        />
-
-        <label htmlFor="password">Password</label>
-        <input
-          {...register("password", {
-            required: true,
-          })}
-        />
-
-        {errors?.password?.type === "required" ? (
-          <ErrorLabel>This input is required.</ErrorLabel>
+      <div>
+        {flashMsg ? (
+          <Alert key={variantAlert} variant={variantAlert}>
+            {flashMsg}
+          </Alert>
         ) : null}
+      </div>
+      <form className="form-user" onSubmit={formik.handleSubmit}>
+        <div className="form-group mb-3">
+          <label htmlFor="email">Email</label>
+          <input
+            name="email"
+            type="text"
+            className="form-control"
+            placeholder="Enter email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            disabled={isLoading}
+          />
+          {formik.touched.email && formik.errors.email ? (
+            <ErrorLabel>{formik.errors.email}</ErrorLabel>
+          ) : null}
+        </div>
 
-        <input type="submit" />
+        <div className="form-group mb-3">
+          <label htmlFor="password">Password</label>
+          <input
+            name="password"
+            type="password"
+            className="form-control"
+            placeholder="Enter Password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            disabled={isLoading}
+          />
+          {formik.touched.password && formik.errors.password ? (
+            <ErrorLabel>{formik.errors.password}</ErrorLabel>
+          ) : null}
+        </div>
+
+        <input
+          type="submit"
+          value="Login"
+          disabled={isLoading}
+          className="btn btn-main"
+        />
       </form>
     </>
   );

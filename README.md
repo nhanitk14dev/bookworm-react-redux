@@ -76,10 +76,13 @@ Structure Project:
 ## III. Features App
 
 - Views
-  - Login page
-  - List paging
-  - Detail page
-  - Add / Update information
+
+  - Middleware - Check authentication for protected routes
+  - Login/Logout
+  - List User with simple pagination (use server-json)
+  - Add New User
+  - Edit User with Redux thunk / RTK Query
+
 - Requirements:
   - Typescript
   - React hook form

@@ -7,7 +7,7 @@ import {
   FooterBottom,
   SocialLinkContainer,
 } from "./Footer.style";
-import NewLetterForm from "../../components/NewLetterForm";
+import NewLetterForm from "../NewLetterForm";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -66,7 +66,7 @@ const Footer = () => {
 
         <FooterBottom className="container">
           <div className="copyright">
-            &copy; Copyright{" "} { new Date().getFullYear() }
+            &copy; Copyright {new Date().getFullYear()}
           </div>
         </FooterBottom>
       </FooterSection>

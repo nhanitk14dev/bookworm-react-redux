@@ -38,7 +38,9 @@ const App: React.FunctionComponent = () => {
                   <Route
                     path={path}
                     key={key}
-                    element={<WrapRoute children={component} checkAuth={true}/>}
+                    element={
+                      <WrapRoute children={component} checkAuth={true} />
+                    }
                   />
                 );
               })}

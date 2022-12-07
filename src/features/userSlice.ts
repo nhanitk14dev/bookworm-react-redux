@@ -1,78 +1,35 @@
-/*
-  createSlice: https://redux-toolkit.js.org/api/createSlice
-  Redux Toolkit: We use createSlice which handles the action and reducer in a single function.
-  Thunk: Promise Lifecycle Actions https://redux-toolkit.js.org/api/createAsyncThunk
-  pending: 'users/requestStatus/pending'
-  fulfilled: 'users/requestStatus/fulfilled'
-  rejected: 'users/requestStatus/rejected'
-  https://www.typescriptlang.org/docs/handbook/modules.html#exporting-a-declaration
-  Writing Logic with Thunks: https://redux.js.org/usage/writing-logic-thunks
-*/
-
 import {
   createSlice,
   createAsyncThunk,
   createSelector,
 } from "@reduxjs/toolkit";
-import type { RootState } from "../../app/store";
-import { IUser } from "../../models";
+import type { RootState } from "../app/store";
+import {
+  IUser,
+  UsersType,
+  EditUserFormType,
+  AuthDefault,
+  UserDefault,
+} from "../models";
 import axios from "axios";
-export interface ILoginForm extends IUser {
-  isFetching?: boolean;
-  isSuccess?: boolean;
-  isError?: boolean;
-  errorMessage?: string;
-}
 
 const baseAPI = process.env.REACT_APP_API_BASE_URL;
-
-type UserState = {
-  users: IUser[];
-  auth: any;
-  isLoggedIn: boolean;
-  status?: string;
-  msgError?: string;
-  flashMessage?: string;
-  editingUser?: any;
-};
-
-const initialState: UserState = {
+export const initialState: UsersType = {
   users: [],
-  auth: null,
+  auth: AuthDefault,
+  editUser: UserDefault,
   isLoggedIn: false,
   status: "",
   msgError: "",
   flashMessage: "",
-  editingUser: "",
 };
-
 
 export const userSlice = createSlice({
   name: "users",
   initialState,
-  reducers: {
-    logout(state) {
-      state.auth = null;
-      localStorage.removeItem("userLoggedIn");
-    },
-    // Reducer comes here
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(loginUser.fulfilled, (state, action) => {
-        if (action.payload) {
-          state.status = "succeeded";
-          state.isLoggedIn = true;
-          const userLoggedIn = { ...action.payload, isLoggedIn: true };
-          localStorage.setItem("userLoggedIn", JSON.stringify(userLoggedIn));
-        } else {
-          state.status = "failed";
-        }
-      })
-      .addCase(loginUser.rejected, (state, action) => {
-        state.status = "failed";
-        state.msgError = action.error.message;
-      })
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.users = action.payload;
       })
@@ -86,14 +43,14 @@ export const userSlice = createSlice({
         state.msgError = action.error.message;
       })
       .addCase(fetchUser.fulfilled, (state, action) => {
-        state.editingUser = action.payload;
+        state.editUser = action.payload;
       })
       .addCase(fetchUser.rejected, (state, action) => {
         state.status = "failed";
         state.msgError = "Not found";
       })
       .addCase(updateUser.fulfilled, (state, action) => {
-        state.editingUser = action.payload;
+        state.editUser = action.payload;
         state.status = "succeeded";
       })
       .addCase(updateUser.rejected, (state, action) => {
@@ -101,35 +58,10 @@ export const userSlice = createSlice({
         state.msgError = action.error.message;
       })
       .addCase(updateUser.pending, (state, action) => {
-        state.status = "pending";
+        state.status = "loading";
       });
   },
 });
-
-export const loginUser = createAsyncThunk(
-  "users/loginUser",
-  async ({ email, password }: IUser, thunkAPI) => {
-    try {
-      const res = await axios
-        .get(`${baseAPI}/users`, {
-          params: {
-            email: email,
-            password: password,
-          },
-        })
-        .then((res) => {
-          return Array.isArray(res.data) ? res.data.shift() : res.data;
-        })
-        .catch((error) => {
-          thunkAPI.rejectWithValue(error);
-        });
-
-      return res;
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e);
-    }
-  }
-);
 
 export const fetchUser = createAsyncThunk(
   "users/fetchUser",
@@ -183,7 +115,7 @@ export const addUser = createAsyncThunk(
 // Update User
 export const updateUser = createAsyncThunk(
   "users/updateUser",
-  async (params: IUser, thunkAPI) => {
+  async (params: EditUserFormType, thunkAPI) => {
     try {
       const response = await axios.put(
         `${baseAPI}/users/update/${params.id}`,
@@ -202,16 +134,8 @@ export const updateUser = createAsyncThunk(
 // Export States
 export const userStateSelector = (state: RootState) => state.user;
 
-// Export actions
-export const { logout } = userSlice.actions;
-
-/*
-  https://redux.js.org/usage/deriving-data-selectors#createselector-overview
-  Reselect provides a function called createSelector to generate memoized selectors.
-*/
-
-const selectUsers = (state: UserState) => state.users;
-const selectUserId = (_: UserState, userId: string) => userId;
+const selectUsers = (state: UsersType) => state.users;
+const selectUserId = (_: UsersType, userId: string) => userId;
 
 export const getUserDetailSelector = createSelector(
   selectUsers,
@@ -220,5 +144,4 @@ export const getUserDetailSelector = createSelector(
     users.filter((x) => `${x.id}`.toString() === userId).shift()
 );
 
-// Export userReducer as default
-export default userSlice.reducer;
+export default userSlice;

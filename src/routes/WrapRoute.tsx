@@ -1,13 +1,18 @@
 import { Navigate } from "react-router-dom";
+import { useAppSelector } from "../app/hook";
 import { ChildComponentProps } from "../models";
 
 const WrapRoute = ({
   children,
   checkAuth,
 }: ChildComponentProps): JSX.Element => {
-  let userLoggedIn = JSON.parse(localStorage.getItem("userLoggedIn") ?? "");
-  if (checkAuth && !userLoggedIn?.isLoggedIn) {
-    return <Navigate to="/login" />;
+  const { auth } = useAppSelector((state) => state.auth);
+
+  // Handle protect for private routes
+  if (checkAuth) {
+    if (checkAuth && !auth?.isLoggedIn) {
+      return <Navigate to="/login" />;
+    }
   }
 
   return children;

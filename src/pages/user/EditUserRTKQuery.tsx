@@ -5,23 +5,26 @@
   values: Our form’s current values
   Formik Typescript: https://formik.org/docs/examples/typescript
   useFormik() is a custom React hook. Only use this hook if you are NOT using <Formik> or withFormik.
+
+  Other ways to get user detail from RTK Query in service:
+  https://redux-toolkit.js.org/tutorials/rtk-query
 */
 
 import { useFormik } from "formik";
-import { string, object } from "yup";
 import { Container, Alert } from "react-bootstrap";
 import { UserContainer, UserInfoStyles } from "./User.style";
 import { ErrorLabel } from "../../styles/commonStyles";
 import { useEffect, useState } from "react";
 import { IUser } from "../../models";
 import { useNavigate, useParams } from "react-router-dom";
-
-// Other ways to get user detail from RTK Query in service
 import {
   useGetUserByIdQuery,
   useUpdateUserByIdMutation,
   useDeleteUserByIdMutation,
 } from "../../services/userService";
+import { useAppSelector } from "../../app/hook";
+import { getUserDetailSelector } from "../../features";
+import { EditUserSchema } from "../../validation/auth";
 
 const EditUserRTKQuery = () => {
   const [flashMsg, setFlashMsg] = useState<string>("");
@@ -29,58 +32,27 @@ const EditUserRTKQuery = () => {
   const [isDisabledForm, setIsDisabledForm] = useState<boolean>(false);
   const { userId } = useParams();
   const navigate = useNavigate();
-
-  // Other ways to get user detail from RTK Query in service
-  // Using a query hook automatically fetches data and returns query values
-  // Individual hooks are also accessible under the generated endpoints:
-  // https://redux-toolkit.js.org/tutorials/rtk-query
-  /* utilityDeleting:
-     You can always check data, status, and error to determine the right UI to render. In addition, useQuery 
-     also provides utility booleans like isLoading, isFetching, isSuccess, and isError for the latest request.
-  */
-
   // Handle isLoading call api get user info
   const { data, error, isLoading } = useGetUserByIdQuery(`${userId}`);
   const [updateUserById] = useUpdateUserByIdMutation();
   const [deleteUserById, utilityDeleting] = useDeleteUserByIdMutation();
-
-  useEffect(() => {
-    // todo: should move to common service
-    if (flashMsg) {
-      const time = setTimeout(() => {
-        setFlashMsg("");
-      }, 3000);
-
-      return () => {
-        clearTimeout(time);
-      };
-    }
-  }, [flashMsg]);
+  const userSelector = useAppSelector((state) =>
+    getUserDetailSelector(state.user, userId as string)
+  );
+  const { editUser } = useAppSelector((state) => state.user);
+  const userDetail = userSelector ?? editUser;
 
   const formik = useFormik({
-    initialValues: {
-      email: "",
-      name: "",
-      address: "",
-      password: "",
-    },
-    validationSchema: object({
-      name: string()
-        .max(15, "Must be 15 characters or less")
-        .required("Required"),
-      email: string().email("Invalid email address").required("Required"),
-      address: string().max(100, "Must be 100 characters or less"),
-      password: string()
-        .max(15, "Must be 15 characters or less")
-        .required("Required"),
-    }),
+    initialValues: userDetail,
+    validationSchema: EditUserSchema,
     onSubmit: (values: IUser) => {
       setIsEditing(true);
       // handle call api
       let params = { ...values, id: userId };
       updateUserById(params)
         .then((result) => {
-          console.log("Update success", result);
+          console.log(result);
+
           setFlashMsg("Update user successfully!");
           setIsEditing(false);
         })
@@ -88,8 +60,9 @@ const EditUserRTKQuery = () => {
     },
   });
 
+  // Case refresh pages, user detail undefine, we call api query
   useEffect(() => {
-    if (data) {
+    if (!formik.values?.email && data?.email) {
       formik.setValues(data);
     }
   }, [data, formik]);
@@ -112,6 +85,19 @@ const EditUserRTKQuery = () => {
     }
   }, [utilityDeleting, navigate]);
 
+  useEffect(() => {
+    // todo: should move to common service
+    if (flashMsg) {
+      const time = setTimeout(() => {
+        setFlashMsg("");
+      }, 3000);
+
+      return () => {
+        clearTimeout(time);
+      };
+    }
+  }, [flashMsg]);
+
   return (
     <>
       {error ? (
@@ -127,7 +113,9 @@ const EditUserRTKQuery = () => {
           <UserContainer>
             <Container>
               <UserInfoStyles>
-                <h2>Edit User</h2>
+                <div className="header-form">
+                  <h2>Edit User</h2>
+                </div>
                 <div>
                   {flashMsg ? (
                     <Alert key="success" variant="success">
@@ -149,21 +137,6 @@ const EditUserRTKQuery = () => {
                     />
                     {formik.touched.email && formik.errors.email ? (
                       <ErrorLabel>{formik.errors.email}</ErrorLabel>
-                    ) : null}
-                  </div>
-                  <div className="form-group mb-3">
-                    <label htmlFor="password">Password</label>
-                    <input
-                      name="password"
-                      type="password"
-                      className="form-control"
-                      placeholder="Enter Password"
-                      value={formik.values.password}
-                      onChange={formik.handleChange}
-                      disabled={isDisabledForm}
-                    />
-                    {formik.touched.password && formik.errors.password ? (
-                      <ErrorLabel>{formik.errors.password}</ErrorLabel>
                     ) : null}
                   </div>
                   <div className="form-group mb-3">
@@ -201,17 +174,14 @@ const EditUserRTKQuery = () => {
                   >
                     Update
                   </button>
-                </form>
-
-                <div className="mt-2">
                   <button
-                    className="btn btn-main"
+                    className="btn btn-main btn-delete"
                     onClick={() => deleteUserById(`${userId}`)}
                     disabled={utilityDeleting.isLoading}
                   >
                     Delete
                   </button>
-                </div>
+                </form>
               </UserInfoStyles>
             </Container>
           </UserContainer>

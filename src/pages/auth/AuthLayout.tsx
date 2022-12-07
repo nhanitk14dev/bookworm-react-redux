@@ -1,7 +1,7 @@
-import Header from '../../components/header/Header';
-import Footer from '../../components/footer/Footer';
-import { Outlet } from 'react-router-dom';
-import { AuthContainer } from './AuthStyles';
+import Header from "../../components/header";
+import Footer from "../../components/footer";
+import { Outlet } from "react-router-dom";
+import { AuthContainer } from "./AuthStyles";
 
 const AuthLayout = () => {
   return (
@@ -13,6 +13,6 @@ const AuthLayout = () => {
       <Footer />
     </>
   );
-}
+};
 
 export default AuthLayout;

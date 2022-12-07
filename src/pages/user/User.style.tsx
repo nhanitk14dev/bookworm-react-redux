@@ -35,4 +35,9 @@ export const UserInfoStyles = styled.div`
   margin: 50px 0;
   padding: 50px;
   max-width: 600px;
+
+  .btn-delete {
+    float: right;
+    background-color: #41464b;
+  }
 `;

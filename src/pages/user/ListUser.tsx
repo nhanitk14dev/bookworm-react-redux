@@ -2,7 +2,7 @@ import { Container, Table } from "react-bootstrap";
 import { UserContainer } from "./User.style";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
-import { userStateSelector, fetchUsers } from "../../features/user/userSlice";
+import { userStateSelector, fetchUsers } from "../../features";
 import { useEffect, useState } from "react";
 import PaginationBs, {
   DefaultPaginationValues,

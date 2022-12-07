@@ -7,22 +7,21 @@
   useFormik() is a custom React hook. Only use this hook if you are NOT using <Formik> or withFormik.
 */
 
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import { Container, Alert } from "react-bootstrap";
-import { UserContainer, UserInfoStyles } from './User.style';
+import { UserContainer, UserInfoStyles } from "./User.style";
 import { ErrorLabel } from "../../styles/commonStyles";
-import { useAppDispatch, useAppSelector } from '../../app/hook';
-import { useEffect, useState } from 'react';
-import { addUser, userStateSelector } from "../../features/user/userSlice"
-import { IUser } from '../../models';
+import { useAppDispatch, useAppSelector } from "../../app/hook";
+import { useEffect, useState } from "react";
+import { addUser, userStateSelector } from "../../features";
+import { IUser } from "../../models";
 
 const AddUserPage = () => {
-
   const dispatch = useAppDispatch();
   const { status } = useAppSelector(userStateSelector);
   const [formValues, setFormValues] = useState<IUser>();
-  const [flashMsg, setFlashMsg] = useState<string>('');
+  const [flashMsg, setFlashMsg] = useState<string>("");
 
   useEffect(() => {
     if (formValues) {
@@ -32,32 +31,36 @@ const AddUserPage = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      name: '',
-      address: '',
-      password: ''
+      email: "",
+      name: "",
+      address: "",
+      password: "",
     },
     validationSchema: Yup.object({
-      name: Yup.string().max(15, 'Must be 15 characters or less').required('Required'),
-      email: Yup.string().email('Invalid email address').required('Required'),
-      address: Yup.string().max(100, 'Must be 100 characters or less'),
-      password: Yup.string().max(15, 'Must be 15 characters or less').required('Required'),
+      name: Yup.string()
+        .max(15, "Must be 15 characters or less")
+        .required("Required"),
+      email: Yup.string().email("Invalid email address").required("Required"),
+      address: Yup.string().max(100, "Must be 100 characters or less"),
+      password: Yup.string()
+        .max(15, "Must be 15 characters or less")
+        .required("Required"),
     }),
     onSubmit: (values: IUser) => {
       setFormValues(values);
-    }
+    },
   });
 
   useEffect(() => {
-    if (status === 'succeeded') {
-      setFlashMsg('Add user successfully new!')
+    if (status === "succeeded") {
+      setFlashMsg("Add user successfully new!");
       const time = setTimeout(() => {
         formik.handleReset({});
-        setFlashMsg('');
+        setFlashMsg("");
       }, 3000);
       return () => {
         clearTimeout(time);
-      }
+      };
     }
   }, [status, formik]);
 
@@ -68,7 +71,11 @@ const AddUserPage = () => {
           <UserInfoStyles>
             <h2>Add New User</h2>
             <div>
-              {flashMsg ? (<Alert key="success" variant="success">{flashMsg}</Alert>) : null}
+              {flashMsg ? (
+                <Alert key="success" variant="success">
+                  {flashMsg}
+                </Alert>
+              ) : null}
             </div>
             <form className="form-user" onSubmit={formik.handleSubmit}>
               <div className="form-group mb-3">
@@ -86,7 +93,7 @@ const AddUserPage = () => {
                 ) : null}
               </div>
               <div className="form-group mb-3">
-                <label htmlFor='password'>Password</label>
+                <label htmlFor="password">Password</label>
                 <input
                   name="password"
                   type="password"
@@ -100,7 +107,7 @@ const AddUserPage = () => {
                 ) : null}
               </div>
               <div className="form-group mb-3">
-                <label htmlFor='username'>User Name</label>
+                <label htmlFor="username">User Name</label>
                 <input
                   name="name"
                   type="text"
@@ -125,13 +132,15 @@ const AddUserPage = () => {
                   <ErrorLabel>{formik.errors.address}</ErrorLabel>
                 ) : null}
               </div>
-              <button type="submit" className="btn btn-main">Create</button>
+              <button type="submit" className="btn btn-main">
+                Create
+              </button>
             </form>
           </UserInfoStyles>
         </Container>
       </UserContainer>
     </>
   );
-}
+};
 
 export default AddUserPage;
