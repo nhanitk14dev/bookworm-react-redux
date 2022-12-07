@@ -1,4 +1,4 @@
-import { IconArrowUpCircle } from "../../styles/commonStyles";
+import { IconArrowUpCircle } from "../styles/commonStyles";
 import { Container, Row, Col } from "react-bootstrap";
 import { Twitter, Facebook, Instagram, Google } from "@styled-icons/bootstrap";
 import {
@@ -7,8 +7,8 @@ import {
   FooterBottom,
   SocialLinkContainer,
 } from "./Footer.style";
-import NewLetterForm from "../NewLetterForm";
 import { Link } from "react-router-dom";
+import NewLetterForm from './NewLetterForm';
 
 const Footer = () => {
   return (

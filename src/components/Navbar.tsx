@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Nav, IconList, Logo, InfoContainer } from "./header/Header.style";
+import { Nav, IconList, Logo, InfoContainer } from "./Header.style";
 import { useAppDispatch, useAppSelector } from "../app/hook";
 import { logout } from "../features";
 
