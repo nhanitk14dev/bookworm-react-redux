@@ -1,4 +1,4 @@
-import { IconChervonDown } from "../../commonStyles";
+import { IconChervonDown } from "../commonStyles";
 import { Link } from "react-router-dom";
 import {
   Nav,
@@ -6,13 +6,10 @@ import {
   IconList,
   Logo,
   InfoContainer
-} from "./Header.style";
-
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
+} from "./header/Header.style";
 
 const Navbar = () => {
 
-  const dispatch = useAppDispatch();
   const auth = false;
   /*
     To type the onClick event of an element in React, 

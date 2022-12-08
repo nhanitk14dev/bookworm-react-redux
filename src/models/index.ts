@@ -60,3 +60,38 @@ export interface IPagination {
 export interface IRoute {
   children: React.ReactElement
 }
+
+
+export const UserDefault: IUser = {
+  id: "",
+  name: "",
+  email: "",
+  password: "",
+  address: "",
+};
+
+export const AuthDefault: IUser = {
+  id: "",
+  name: "",
+  email: "",
+  password: "",
+  address: "",
+};
+
+export type AuthType = {
+  auth: IUser;
+  status: string;
+  msgError: string;
+};
+
+export type LoginFormType = {
+  email: string;
+  password: string;
+};
+
+export type EditUserFormType = {
+  id?: string;
+  email: string;
+  name: string;
+  address: string;
+};

@@ -11,7 +11,7 @@ export const updateUserDetailRouteApi = (id: string) => {
 
 
 export const createApiCall = async ({ method = 'GET', path = '', payload = {}, auth = false }) => {
-  const headers: any = {
+  const headers = {
     "Content-Type": "application/json",
   }
 
