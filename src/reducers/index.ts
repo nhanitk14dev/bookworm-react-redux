@@ -2,17 +2,18 @@
   https://redux.js.org/api/combinereducers/
 */
 
-import { combineReducers } from 'redux';
-import { UsersReducerType, usersReducer } from './users.reducer'
+import { combineReducers } from "redux";
+import { UsersReducerType, usersReducer } from "./users.reducer";
+import { AuthReducerType, authReducer } from "./auth.reducers";
 
 export interface RootState {
-    userState: UsersReducerType
+  userState: UsersReducerType;
+  authState: AuthReducerType;
 }
 
-// reducers: (state, action) => newState
 export const rootReducers = combineReducers<RootState>({
-    // todos: myTodosReducer
-    userState: usersReducer
+  userState: usersReducer,
+  authState: authReducer,
 });
 
 export default rootReducers;

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const AuthContainer = styled.div`
- 
   margin: 40px auto;
   background: #e9ecef;
   max-width: 400px;
@@ -47,5 +46,4 @@ export const AuthContainer = styled.div`
     font-weight: 500;
     letter-spacing: 10px;
   }
-
 `;

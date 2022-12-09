@@ -3,8 +3,8 @@
   we are using the useMemo hook to compute our core logic. 
   The useMemo callback will run when any value in its dependency array changes.
  */
-import { useMemo } from 'react'
-import { IPagination } from '../../models'
+import { useMemo } from "react";
+import { IPagination } from "../../models";
 export const DOTS = -1;
 export const PER_PAGE = 4;
 
@@ -17,7 +17,7 @@ export const usePagination = ({
   totalCount,
   pageSize,
   siblingCount = 1,
-  currentPage
+  currentPage,
 }: IPagination) => {
   const paginationRange = useMemo(() => {
     const totalPageCount = Math.ceil(totalCount / pageSize);
@@ -69,9 +69,8 @@ export const usePagination = ({
 
     if (shouldShowLeftDots && shouldShowRightDots) {
       let middleRange = range(leftSiblingIndex, rightSiblingIndex);
-      return [firstPageIndex, '...', ...middleRange, DOTS, lastPageIndex];
+      return [firstPageIndex, "...", ...middleRange, DOTS, lastPageIndex];
     }
-
   }, [totalCount, pageSize, siblingCount, currentPage]);
 
   return paginationRange;

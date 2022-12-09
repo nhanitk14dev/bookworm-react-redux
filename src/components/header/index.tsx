@@ -1,5 +1,5 @@
 import { HeaderSection, HeaderContainer } from "./Header.style";
-import  Navbar from "../Navbar";
+import Navbar from "../Navbar";
 
 const Header = () => {
   return (
@@ -9,6 +9,6 @@ const Header = () => {
       </HeaderContainer>
     </HeaderSection>
   );
-}
+};
 
 export default Header;

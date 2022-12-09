@@ -1,10 +1,11 @@
 import { Navigate } from "react-router-dom";
 import { IRoute } from "../models";
+import { useAppSelector } from "../app/hooks";
 
 const LoginAuthenticated = ({ children }: IRoute) => {
+  const { auth } = useAppSelector((state) => state.authState);
 
-  const isLoggedIn = localStorage.getItem('token');
-  if (!isLoggedIn) {
+  if (!auth?.isLoggedIn) {
     return <Navigate to="/login" replace />;
   }
 

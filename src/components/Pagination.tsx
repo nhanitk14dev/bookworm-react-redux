@@ -1,6 +1,6 @@
-import { IPagination } from '../models'
-import { usePagination, DOTS } from '../app/hooks/usePagination'
-import { PaginationConatiner } from './Pagination.style'
+import { IPagination } from "../models";
+import { usePagination, DOTS } from "../app/hooks/usePagination";
+import { PaginationConatiner } from "./Pagination.style";
 
 const Pagination = (props: IPagination) => {
   const {
@@ -9,7 +9,7 @@ const Pagination = (props: IPagination) => {
     siblingCount = 1,
     currentPage,
     pageSize,
-    className
+    className,
   } = props;
 
   const paginationRange: any = usePagination({
@@ -18,7 +18,7 @@ const Pagination = (props: IPagination) => {
     siblingCount,
     pageSize,
     className,
-    onPageChange
+    onPageChange,
   });
 
   // Display pagination when the total of record > default: 4
@@ -36,27 +36,41 @@ const Pagination = (props: IPagination) => {
 
   let lastPage: number = paginationRange[paginationRange.length - 1];
 
-
   return (
     <PaginationConatiner className={className}>
-      <ul
-        className='pagination-container'
-      >
+      <ul className="pagination-container">
         <li
-          className={`pagination-item ${currentPage === 1 && "disabled"}`} onClick={onPrevious}>
+          className={`pagination-item ${currentPage === 1 && "disabled"}`}
+          onClick={onPrevious}
+        >
           <div className="arrow left" />
         </li>
         {paginationRange.map((page: number) => {
           if (page === DOTS) {
-            return <li key={page} className="pagination-item dots">&#8230;</li>;
+            return (
+              <li key={page} className="pagination-item dots">
+                &#8230;
+              </li>
+            );
           }
 
           return (
-            <li key={page} className="pagination-item" onClick={() => onPageChange(page)}>{page}</li>
+            <li
+              key={page}
+              className="pagination-item"
+              onClick={() => onPageChange(page)}
+            >
+              {page}
+            </li>
           );
         })}
 
-        <li className={`pagination-item ${currentPage === lastPage && "disabled"}`} onClick={onNext}>
+        <li
+          className={`pagination-item ${
+            currentPage === lastPage && "disabled"
+          }`}
+          onClick={onNext}
+        >
           <div className="arrow right" />
         </li>
       </ul>

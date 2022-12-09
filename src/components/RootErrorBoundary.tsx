@@ -16,7 +16,9 @@ export default function RootErrorBoundary() {
       <pre>
         <i>{error.message || JSON.stringify(error)}</i>
       </pre>
-      <button onClick={() => (window.location.href = "/")}>Click here to reload the app</button>
+      <button onClick={() => (window.location.href = "/")}>
+        Click here to reload the app
+      </button>
     </PageContainer>
   );
 }

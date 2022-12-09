@@ -3,8 +3,8 @@
   Redux: https://redux.js.org/usage/usage-with-typescript
 */
 
-import { createSelector } from '@reduxjs/toolkit';
-import { IUser, IAction, ActionType } from '../models'
+import { createSelector } from "@reduxjs/toolkit";
+import { IUser, IAction, ActionType } from "../models";
 
 export type UsersReducerType = {
   users: IUser[];
@@ -13,18 +13,16 @@ export type UsersReducerType = {
   isLoading: boolean;
   userId: string;
   status: string;
-  auth: any;
-}
+};
 
 export const initalUsersState: UsersReducerType = {
   users: [],
   user: {},
   isLoading: false,
-  userId: '',
-  status: '',
-  error: '',
-  auth: {}
-}
+  userId: "",
+  status: "",
+  error: "",
+};
 
 export const usersReducer = (
   state: UsersReducerType = initalUsersState,
@@ -34,90 +32,70 @@ export const usersReducer = (
     case ActionType.USERS_FETCH_REQUESTED:
       return {
         ...state,
-        isLoading: true
-      }
+        isLoading: true,
+      };
     case ActionType.USERS_FETCH_SUCCEEDED:
       return {
         ...state,
         isLoading: false,
-        users: action.payload
-      }
+        users: action.payload,
+      };
     case ActionType.USERS_FETCH_FAILED:
       return {
         ...state,
         isLoading: false,
-        error: 'Fetch users failed'
-      }
+        error: "Fetch users failed",
+      };
     case ActionType.USER_DETAIL_FETCH_SUCCEEDED:
       return {
         ...state,
-        user: action.payload
-      }
+        user: action.payload,
+      };
     case ActionType.USER_DETAIL_FETCH_FAILED:
       return {
         ...state,
-        error: 'Not found item'
-      }
+        error: "Not found item",
+      };
     case ActionType.USER_UPDATE_REQUESTED:
       return {
         ...state,
-        isLoading: true
-      }
+        isLoading: true,
+      };
     case ActionType.USER_UPDATE_SUCCEEDED:
       return {
         ...state,
         user: action.payload,
         status: ActionType.USER_UPDATE_SUCCEEDED,
-        isLoading: false
-      }
+        isLoading: false,
+      };
     case ActionType.USER_UPDATE_FAILED:
       return {
         ...state,
         status: ActionType.USER_UPDATE_FAILED,
-        isLoading: false
-      }
+        isLoading: false,
+      };
     case ActionType.USER_CREATE_REQUESTED:
       return {
         ...state,
-        isLoading: true
-      }
+        isLoading: true,
+      };
     case ActionType.USER_CREATE_SUCCEEDED:
       return {
         ...state,
         user: action.payload,
         status: ActionType.USER_CREATE_SUCCEEDED,
-        isLoading: false
-      }
+        isLoading: false,
+      };
     case ActionType.USER_CREATE_FAILED:
       return {
         ...state,
         status: ActionType.USER_CREATE_FAILED,
-        isLoading: false
-      }
-
-    // authentication
-    case ActionType.USER_LOGIN_REQUESTED:
-      return {
-        ...state,
-        isLoading: true
-      }
-    case ActionType.USER_LOGIN_SUCCEEDED:
-      return {
-        ...state,
-        auth: action.payload,
-        status: ActionType.USER_LOGIN_SUCCEEDED,
-        isLoading: false
-      }
-    case ActionType.USER_LOGIN_FAILED:
-      return {
-        ...state,
-        status: ActionType.USER_LOGIN_FAILED,
-        isLoading: false
-      }
+        isLoading: false,
+      };
     default:
       return state;
   }
-}
+};
 
 /*
   https://redux.js.org/usage/deriving-data-selectors#createselector-overview
@@ -128,6 +106,8 @@ const selectUsers = (state: UsersReducerType) => state.users;
 const selectUserId = (_: UsersReducerType, userId: string) => userId;
 
 export const getUserDetailSelector = createSelector(
-  selectUsers, selectUserId,
-  (users, userId) => users.filter(x => (`${x.id}`).toString() === userId).shift()
+  selectUsers,
+  selectUserId,
+  (users, userId) =>
+    users.filter((x) => `${x.id}`.toString() === userId).shift()
 );

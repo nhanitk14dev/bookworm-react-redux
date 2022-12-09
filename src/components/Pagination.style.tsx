@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const PaginationConatiner = styled.div`
-  
   .pagination-container {
     display: flex;
     list-style-type: none;
@@ -40,7 +39,7 @@ export const PaginationConatiner = styled.div`
       &::before {
         position: relative;
         /* top: 3pt; Uncomment this to lower the icons as requested in comments*/
-        content: '';
+        content: "";
         /* By using an em scale, the arrows will size with the font */
         display: inline-block;
         width: 0.4em;
