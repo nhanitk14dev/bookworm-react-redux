@@ -25,7 +25,7 @@ const EditUserPage = () => {
   const [flashMsg, setFlashMsg] = useState<string>("");
   const { userId } = useParams();
   const navigate = useNavigate();
-  const userSelector: any = useAppSelector((state) =>
+  const userSelector = useAppSelector((state) =>
     getUserDetailSelector(state.userState, userId as string)
   );
   const { status, error, isLoading } = useAppSelector(

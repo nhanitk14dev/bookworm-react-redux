@@ -1,5 +1,4 @@
-import { all, fork, takeEvery } from "redux-saga/effects";
-import { helloSaga } from "./hello.saga";
+import { fork, takeEvery } from "redux-saga/effects";
 import { ActionType } from "../models";
 import {
   fetchUsers,
@@ -13,7 +12,6 @@ import wathUserAuthentication from "./authenticationSaga";
 // notice how we now only export the rootSaga
 // single entry point to start all Sagas at once
 function* rootSaga() {
-  yield all([helloSaga()]);
 
   /*
     Starts fetchUser on each dispatched `USER_FETCH_REQUESTED` action.
