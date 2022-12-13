@@ -34,9 +34,7 @@ const SpinnerContainer = styled.div`
 `;
 
 const Spinner = () => {
-  return (
-    <SpinnerContainer className="loading-spinner" />
-  );
-}
+  return <SpinnerContainer className="loading-spinner" />;
+};
 
 export default Spinner;

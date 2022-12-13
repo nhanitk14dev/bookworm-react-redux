@@ -14,6 +14,6 @@ const PageNotFound = () => {
       </PageContainer>
     </>
   );
-}
+};
 
 export default PageNotFound;
