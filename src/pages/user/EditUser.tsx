@@ -15,7 +15,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hook";
 import { useEffect, useState } from "react";
 import { updateUser, getUserDetailSelector } from "../../features";
 import { useParams } from "react-router-dom";
-import { EditUserSchema } from "../../validation/auth";
+import { EditUserSchema } from "../../validation/users";
 import { IUser } from "./../../models/index";
 const baseAPI = process.env.REACT_APP_API_BASE_URL;
 

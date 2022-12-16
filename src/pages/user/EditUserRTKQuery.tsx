@@ -24,7 +24,7 @@ import {
 } from "../../services/userService";
 import { useAppSelector } from "../../app/hook";
 import { getUserDetailSelector } from "../../features";
-import { EditUserSchema } from "../../validation/auth";
+import { EditUserSchema } from "../../validation/users";
 
 const EditUserRTKQuery = () => {
   const [flashMsg, setFlashMsg] = useState<string>("");
