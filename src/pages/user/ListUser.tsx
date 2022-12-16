@@ -3,32 +3,32 @@ import { UserContainer } from "./User.style";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hook";
 import { userStateSelector, fetchUsers } from "../../features";
-import { useEffect, useState } from "react";
-import PaginationBs, {
-  DefaultPaginationValues,
-} from "../../components/PaginationBs";
+import { useEffect, useMemo, useState } from "react";
+import { PER_PAGE } from "../../app/usePagination";
+import Pagination from "../../components/pagination/Pagination";
 
 const ListUser = () => {
   const dispatch = useAppDispatch();
   const { users } = useAppSelector(userStateSelector);
-  const [pagination, setPagination] = useState<any>(DefaultPaginationValues); // init pagination
 
+  // Use pagination hook
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  // Use memo to re-calculate data trigger change when currentPage change
+  const currentTableData = useMemo(() => {
+    const firstIndex = (currentPage - 1) * PER_PAGE;
+    const lastIndex = firstIndex + PER_PAGE;
+
+    return users.slice(firstIndex, lastIndex);
+  }, [currentPage, users]);
+
+
+  // Case state of users is empty, call api fetch user list
   useEffect(() => {
-    dispatch(fetchUsers(pagination));
-  }, [pagination, dispatch]);
-
-  const callbackChangePage = (page: number) => {
-    pagination._page = page;
-    let newPagination = { ...pagination, _page: page };
-    setPagination(newPagination);
-    //todo check use effect trigger auto change to call api
-    dispatch(fetchUsers(newPagination));
-  };
-
-  const paginationProps = {
-    ...pagination,
-    setCurrentPage: callbackChangePage,
-  };
+    if (!users.length) {
+      dispatch(fetchUsers({}));
+    }
+  }, [dispatch, users]);
 
   return (
     <>
@@ -49,8 +49,8 @@ const ListUser = () => {
               </tr>
             </thead>
             <tbody>
-              {users ? (
-                users.map((user) => (
+              {currentTableData ? (
+                currentTableData.map((user) => (
                   <tr key={user.id}>
                     <td>
                       <Link to={`${user.id}/edit`}>{user.id}</Link>
@@ -73,7 +73,13 @@ const ListUser = () => {
             </tbody>
           </Table>
 
-          <PaginationBs {...paginationProps} />
+          <Pagination
+            className="pagination-bar"
+            currentPage={currentPage}
+            totalCount={users.length}
+            pageSize={PER_PAGE}
+            onPageChange={(page) => setCurrentPage(page)}
+          />
         </Container>
       </UserContainer>
     </>
