@@ -23,7 +23,10 @@ const Navbar = () => {
             <Link to="/users">List Users</Link>
           </li>
           <li>
-            <Link to="/contact">contact</Link>
+            <Link to="/contact">Contact</Link>
+          </li>
+          <li>
+            <Link to="/hooks">Hooks</Link>
           </li>
           <li>
             {auth?.isLoggedIn ? (

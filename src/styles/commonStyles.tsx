@@ -65,4 +65,28 @@ export const NewsLetterFormGroup = styled.div`
   justify-content: center;
 `;
 
+
+export const SectionContainer = styled.div`
+  margin: 40px auto;
+  background: #e9ecef;
+  padding: 30px;
+  color: black;
+
+  h2 {
+    font-weight: 600;
+  }
+
+  button,
+  input[type="submit"] {
+    background: #d9232d;
+    color: white;
+    text-transform: uppercase;
+    border: none;
+    padding: 10px 15px;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 8px;
+  }
+`;
+
 export default CommonStyles;

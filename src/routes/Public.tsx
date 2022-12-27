@@ -3,6 +3,7 @@ import { lazy } from "react";
 const Home = lazy(() => import("../pages/homePage"));
 const About = lazy(() => import("../pages/About"));
 const Contact = lazy(() => import("../pages/Contact"));
+const HookExample = lazy(() => import("../pages/hookExamplePage"))
 
 const routes = [
   {
@@ -16,6 +17,10 @@ const routes = [
   {
     component: <Contact />,
     path: "/contact",
+  },
+  {
+    component: <HookExample />,
+    path: "/hooks",
   },
 ];
 
