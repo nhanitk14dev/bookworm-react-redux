@@ -82,7 +82,8 @@ export const SectionContainer = styled.div`
     color: white;
     text-transform: uppercase;
     border: none;
-    padding: 10px 15px;
+    padding: 10px 8px;
+    margin: 5px;
     font-size: 18px;
     font-weight: 500;
     border-radius: 8px;
