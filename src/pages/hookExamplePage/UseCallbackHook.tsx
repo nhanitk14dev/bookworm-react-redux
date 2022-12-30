@@ -14,7 +14,7 @@ const UseCallbackHook = () => {
 
   const cachedFnAddTodo = useCallback(() => {
     setTodo((t) => [...t, "Add New Todo"]);
-  }, [todos]);
+  }, []);
 
   const handleCount = () => {
     setCount((c) => c + 1);
