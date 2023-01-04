@@ -71,6 +71,7 @@ export const SectionContainer = styled.div`
   background: #e9ecef;
   padding: 30px;
   color: black;
+  position: relative;
 
   h2 {
     font-weight: 600;
