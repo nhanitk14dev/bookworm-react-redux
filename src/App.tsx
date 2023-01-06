@@ -15,52 +15,58 @@ import LoginAuthenticated from './routes/LoginAuthenticated'
 import { ErrorBoundary } from 'react-error-boundary'
 import ErrorFallback from './components/ErrorFallback'
 import { map } from 'lodash';
+import { useState } from 'react';
+import { ThemeContext } from './app/hooks/useTheme';
 const SignUp = lazy(() => import('./pages/auth/SignUp'));
 const AuthLayout = lazy(() => import('./pages/auth/AuthLayout'));
 const Login = lazy(() => import('./pages/auth/Login'));
 
 const App = () => {
+  const [theme, setTheme] = useState('light')
+  
   return (
-    <Router>
-      <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <Suspense fallback={<Spinner />}>
-          <Routes>
-            <Route path='/' element={<AuthLayout />}>
-              <Route path='login' element={<Login />} />
-              <Route path='singup' element={<SignUp />} />
-              <Route path='logout' />
-            </Route>
-            <Route path='/' element={<Layout />}>
-              {
-                map(Public, (route, key) => {
-                  const { index, element, path } = route;
-                  return (
-                    <Route
-                      index={index}
-                      path={path}
-                      key={key}
-                      element={element}
-                    />
-                  );
-                })
-              }
-              {
-                map(Private, (route, key) => {
-                  const { element, path } = route;
-                  return (
-                    <Route
-                      path={path}
-                      key={key}
-                      element={<LoginAuthenticated>{element}</LoginAuthenticated>}
-                    />
-                  );
-                })
-              }
-            </Route>
-          </Routes>
-        </Suspense>
-      </ErrorBoundary>
-    </Router>
+    <ThemeContext.Provider value={{theme, setTheme}}>
+      <Router>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <Suspense fallback={<Spinner />}>
+            <Routes>
+              <Route path='/' element={<AuthLayout />}>
+                <Route path='login' element={<Login />} />
+                <Route path='singup' element={<SignUp />} />
+                <Route path='logout' />
+              </Route>
+              <Route path='/' element={<Layout />}>
+                {
+                  map(Public, (route, key) => {
+                    const { index, element, path } = route;
+                    return (
+                      <Route
+                        index={index}
+                        path={path}
+                        key={key}
+                        element={element}
+                      />
+                    );
+                  })
+                }
+                {
+                  map(Private, (route, key) => {
+                    const { element, path } = route;
+                    return (
+                      <Route
+                        path={path}
+                        key={key}
+                        element={<LoginAuthenticated>{element}</LoginAuthenticated>}
+                      />
+                    );
+                  })
+                }
+              </Route>
+            </Routes>
+          </Suspense>
+        </ErrorBoundary>
+      </Router>
+    </ThemeContext.Provider>
   );
 }
 

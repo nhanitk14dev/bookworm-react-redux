@@ -82,6 +82,7 @@ Structure Project:
   - List User with simple pagination (use server-json)
   - Add New User
   - Edit User with Redux thunk / RTK Query
+  - Setting Theme: useContext React Hook
 
 - Requirements:
   - Typescript

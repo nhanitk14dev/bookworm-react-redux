@@ -12,6 +12,16 @@ body {
   color: #444444;
 }
 
+.theme-light {
+  background-color: #f2f2f2;
+  color: #2E0509;
+}
+
+.theme-dark {
+  background-color: #58585e;
+  color: #e1e3f3;
+}
+
 a {
   text-decoration: none;
   color: rgba(255, 255, 255, 0.6);

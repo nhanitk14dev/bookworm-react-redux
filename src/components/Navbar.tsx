@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import { Nav, IconList, Logo, InfoContainer } from "./header/Header.style";
+import { Nav, Logo, InfoContainer } from "./header/Header.style";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { logoutAction } from "../actions";
 import { useCallback } from "react";
+import ToggleTheme from "./ToggleTheme";
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -37,6 +38,7 @@ const Navbar = () => {
                       Logout
                     </button>
                   </span>
+                  <span><ToggleTheme /></span>
                 </InfoContainer>
               </>
             ) : (
@@ -46,7 +48,6 @@ const Navbar = () => {
             )}
           </li>
         </ul>
-        <IconList />
       </Nav>
     </>
   );
