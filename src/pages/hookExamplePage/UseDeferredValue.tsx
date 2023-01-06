@@ -1,5 +1,5 @@
 import { SectionContainer } from "../../styles/commonStyles";
-import { Suspense, useDeferredValue, useEffect, useState } from "react";
+import { Suspense, useDeferredValue, useState } from "react";
 import SearchResult from "./SearchResult";
 import Spinner from "../../components/Spinner";
 
